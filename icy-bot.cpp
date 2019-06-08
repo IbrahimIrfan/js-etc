@@ -153,8 +153,8 @@ int main(int argc, char *argv[])
         }
 
         buyXLF(util, state);
-		//pennyAllDaStocks(&util);
       //  checkLimits(&util, state);
+		pennyAllDaStocks(&util);
         usleep(1000 * 100);
 	}
 
