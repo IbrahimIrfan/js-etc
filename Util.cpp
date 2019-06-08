@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Utils::Utils(Configuration& config, Connection& conn, State& state) : config{config}, order_id{0}, conn{conn}, state{state} {}
+Utils::Utils(Configuration& config, Connection& conn, State& state) : order_id{0}, config{config}, conn{conn}, state{state} {}
 
 void Utils::hello() {
     vector<string> mess;
@@ -10,7 +10,7 @@ void Utils::hello() {
     mess.push_back(config.team_name);
     string mess_str = join(" ", mess);
     cout << "Sending hello message: " << mess_str << endl;
-    conn.send_to_ecxchange(mess_str);
+    conn.send_to_exchange(mess_str);
     read_and_parse();
 }
 
