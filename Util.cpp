@@ -129,24 +129,26 @@ void Utils::parse_message(string resp) {
     else if (type == "BOOK") {
 		// Parse the line
 		/*
-    	vector<string> words;
-		string tmp;
-    	while (ss >> tmp) {
-        	words.push_back(tmp);
+		string symbol;
+		ss >> symbol;
+
+		string curWord;
+		string lastWord = "";
+		string minBuyVal;
+		string minSellVal;
+
+    	while (ss >> curWord) {
+			if (lastWord == "BUY") {
+				minBuyVal = curWord;	
+			} else if (lastWord == "SELL") {
+				minSellVal = curWord;
+			}
+			lastWord = curWord;
     	}
-		string sym = words[0];
 
-		string maxBuyVal = words[2];
-		maxBuyVal = maxBuyVal.substr(0, maxBuyVal.find(":"));
-
-		int curWord = 2;
-		while (words[curWord] != "SELL") {
-			curWord++;
-		}
-		string minSellVal = words[curWord + 1];
+		minBuyVal = minBuyVal.substr(0, minBuyVal.find(":"));
 		minSellVal = minSellVal.substr(0, minSellVal.find(":"));
-
-		state.book_vals[sym] = make_pair(atoi(maxBuyVal.c_str()), atoi(minSellVal.c_str()));
+		state.book_vals[symbol] = make_pair(atoi(minBuyVal.c_str()), atoi(minSellVal.c_str()));
 		*/
     }
     else if (type == "TRADE") {
