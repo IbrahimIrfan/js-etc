@@ -65,7 +65,7 @@ public:
     unordered_map<string, int> maximums;
     unordered_map<int, Order> orders;
     unordered_set<string> open;
-    unordered_set<string, int> fairvalues;
+    unordered_map<string, int> fairvalues;
 
     void get_positions_from_exchange(stringstream& resp);
     void init_maximums();
