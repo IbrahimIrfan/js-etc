@@ -47,6 +47,24 @@ void buyValbzVales(Utils util, State state) {
 //     util.sell("VALBZ", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
 }
 
+void pennyAllDaStocks(Utils *util){
+	vector<string> stocks = {"GS", "MS", "WFC"};
+
+	for (int i = 0; i < stocks.size(); i++) {
+		unordered_map<string, pair<int, int>> book_vals = util->state.book_vals;
+		if (book_vals.find(stocks[i]) != book_vals.end()) {
+			// check if we can penny	
+			int bestBuy = book_vals[stocks[i]].first;
+			int bestSell = book_vals[stocks[i]].second;
+
+			if (bestSell - bestBuy > 5) {
+				util->buy(stocks[i], bestBuy - 1, 1);
+				util->sell(stocks[i], bestSell + 1, 1);
+			}
+		}
+	}
+}
+
 int main(int argc, char *argv[])
 {
     // Be very careful with this boolean! It switches between test and prod
