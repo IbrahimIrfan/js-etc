@@ -86,6 +86,7 @@ Connection::Connection(Configuration configuration){
 /** Send a string to the server */
 void Connection::send_to_exchange(string input) {
     string line(input);
+	cout << line;
     /* All messages must always be uppercase */
     transform(line.begin(), line.end(), line.begin(), ::toupper);
     int res = fprintf(this->out, "%s\n", line.c_str());
