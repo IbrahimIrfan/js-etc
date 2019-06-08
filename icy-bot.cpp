@@ -46,7 +46,6 @@ void buyValbzVales(Utils util, State state) {
 }
 
 void buyXLF(Utils util, State state) {
-    int bond = 1001;
     double gs = state.fairvalues["GS"];
     double ms = state.fairvalues["MS"];
     double wfc = state.fairvalues["WFC"];

@@ -12,9 +12,10 @@ public:
     int qty;
     string dir;
     bool acked;
+    bool convert;
 
     Order();
-    Order(int id, string sym, int price, int qty, string dir);
+    Order(int id, string sym, int price, int qty, string dir, bool convert);
 };
 
 #endif

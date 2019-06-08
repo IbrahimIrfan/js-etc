@@ -31,7 +31,7 @@ void Utils::buy(string sym, int price, int qty) {
     string order_str = join(" ", order);
     cout << "Sending buy order: " << order_str << endl;
 
-    Order order_obj(order_id, sym, price, qty, "BUY");
+    Order order_obj(order_id, sym, price, qty, "BUY", false);
     state.orders[order_id] = order_obj;
 
     conn.send_to_exchange(order_str);
@@ -56,7 +56,7 @@ void Utils::sell(string sym, int price, int qty) {
     string order_str = join(" ", order);
     cout << "Sending sell order: " << order_str << endl;
 
-    Order order_obj(order_id, sym, price, qty, "SELL");
+    Order order_obj(order_id, sym, price, qty, "SELL", false);
     state.orders[order_id] = order_obj;
 
     conn.send_to_exchange(order_str);
@@ -74,6 +74,10 @@ void Utils::convert_to_stocks(string sym, int qty) {
     order.push_back("BUY");
     order.push_back(to_string(qty));
     string order_str = join(" ", order);
+
+    Order order_obj(order_id, sym, 0, qty, "BUY", true);
+    state.orders[order_id] = order_obj;
+
     cout << "Sending convert order: " << order_str << endl;
     conn.send_to_exchange(order_str);
 }
@@ -90,6 +94,10 @@ void Utils::convert_to_obj(string sym, int qty) {
     order.push_back("SELL");
     order.push_back(to_string(qty));
     string order_str = join(" ", order);
+
+    Order order_obj(order_id, sym, 0, qty, "SELL", true);
+    state.orders[order_id] = order_obj;
+
     cout << "Sending convert order: " << order_str << endl;
     conn.send_to_exchange(order_str);
 }
@@ -188,18 +196,43 @@ void Utils::parse_message(string resp) {
         Order& o = state.orders[order_id];
         BookEntry& be = state.our_book[o.symbol];
 
-        unordered_map<int, int>& price_count = be.get_by_dir(o.dir);
-
-        if (o.dir == "BUY") {
-            be.total_buy += o.qty;
+        if (o.convert) {
+            if (o.dir == "BUY") {
+                state.positions[o.symbol] += o.qty;
+                if (o.symbol == "XLF") {
+                    state.positions["BOND"] -= 3 * o.qty / 10;
+                    state.positions["GS"] -= 2 * o.qty / 10;
+                    state.positions["MS"] -= 3 * o.qty / 10;
+                    state.positions["WFC"] -= 2 * o.qty / 10;
+                } else if (o.symbol == "VALE") {
+                    state.positions["VALBZ"] -= o.qty;
+                }
+            } else {
+                state.positions[o.symbol] -= o.qty;
+                if (o.symbol == "XLF") {
+                    state.positions["BOND"] += 3 * o.qty / 10;
+                    state.positions["GS"] += 2 * o.qty / 10;
+                    state.positions["MS"] += 3 * o.qty / 10;
+                    state.positions["WFC"] += 2 * o.qty / 10;
+                } else if (o.symbol == "VALE") {
+                    state.positions["VALBZ"] += o.qty;
+                }
+            }
+            state.orders.erase(order_id);
         } else {
-            be.total_sell += o.qty;
-        }
+            unordered_map<int, int>& price_count = be.get_by_dir(o.dir);
 
-        if (price_count.find(o.price) != price_count.end()) {
-            price_count[o.price] += o.qty;
-        } else {
-            price_count[o.price] = o.qty;
+            if (o.dir == "BUY") {
+                be.total_buy += o.qty;
+            } else {
+                be.total_sell += o.qty;
+            }
+
+            if (price_count.find(o.price) != price_count.end()) {
+                price_count[o.price] += o.qty;
+            } else {
+                price_count[o.price] = o.qty;
+            }
         }
     }
     else if (type == "REJECT") {
