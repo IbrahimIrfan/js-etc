@@ -45,6 +45,9 @@ int main(int argc, char *argv[])
     conn.send_to_exchange(join(" ", data));
 
     util.buy("BOND",999,1);
+	while (true) {
+		conn.read_from_exchange();
+	}
 
     return 0;
 }
