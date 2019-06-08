@@ -34,18 +34,18 @@ void parse_loop(Utils *util) {
 }
 
 void buyValbzVales(Utils util, State state) {
-    // int valbzFairvalue = state.fairvalues["VALBZ"].second;
-    // int valbzBuyBookvalue = state.book_vals["VALBZ"].first;
-    // int valbzSellBookvalue = state.book_vals["VALBZ"].second;
-    // //int valeFairvalue = state.fairvalues["VALE"].second;
-    // // int valeBuyBookvalue = state.book_vals["VALE"].first;
-    // // int valeSellBookvalue = state.book_vals["VALE"].second;
-    //
-    // util.buy("VALE", min(valbzBuyBookvalue, valbzFairvalue) + 1, 2);
-    // util.buy("VALBZ", min(valbzBuyBookvalue, valbzFairvalue) + 1, 2);
-    // util.sell("VALE", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
-    // util.sell("VALBZ", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
-}
+//     int valbzFairvalue = state.fairvalues["VALBZ"].second;
+//     int valbzBuyBookvalue = state.book_vals["VALBZ"].first;
+//     int valbzSellBookvalue = state.book_vals["VALBZ"].second;
+//     //int valeFairvalue = state.fairvalues["VALE"].second;
+//     // int valeBuyBookvalue = state.book_vals["VALE"].first;
+//     // int valeSellBookvalue = state.book_vals["VALE"].second;
+//
+//     util.buy("VALE", min(valbzBuyBookvalue, valbzFairvalue) + 1, 2);
+//     util.buy("VALBZ", min(valbzBuyBookvalue, valbzFairvalue) + 1, 2);
+//     util.sell("VALE", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
+//     util.sell("VALBZ", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
+// }
 
 int main(int argc, char *argv[])
 {
@@ -64,13 +64,13 @@ int main(int argc, char *argv[])
 	while (true) {
         // ETF arbitrage detection
         if (state.fair_xlf() > state.fairvalues["XLF"].second) {
-            util.buy("XLF", state.book_vals["XLF"].second+1, 10);
+        //    util.buy("XLF", state.book_vals["XLF"].second+1, 10);
             cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"].second << endl;
-            util.convert_to_stocks("XLF", 10);
-            util.sell("BOND", 1001, 3);
-            util.sell("GS", state.fairvalues["GS"].second-1, 2);
-            util.sell("MS", state.fairvalues["MS"].second-1, 3);
-            util.sell("WFC", state.fairvalues["WFC"].second-1, 2);
+            // util.convert_to_stocks("XLF", 10);
+            // util.sell("BOND", 1001, 3);
+            // util.sell("GS", state.fairvalues["GS"].second-1, 2);
+            // util.sell("MS", state.fairvalues["MS"].second-1, 3);
+            // util.sell("WFC", state.fairvalues["WFC"].second-1, 2);
         }
 
         util.buy("BOND", 999, 5);
