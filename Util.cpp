@@ -238,10 +238,14 @@ void State::get_positions_from_exchange(stringstream& ss) {
         getline(ss, symbol, ':');
         positions[symbol] = 0;
         ss >> positions[symbol];
-        cout << "Current position for " << symbol << ": " << positions[symbol] << endl;
     }
 }
 
+void State::print_positions() {
+    for (auto position : positions) {
+        cout << position.first << ": " << position.second << endl;
+    }
+}
 
 void State::init_maximums() {
     maximums["BOND"] = 100;

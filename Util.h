@@ -68,6 +68,7 @@ public:
 
     void get_positions_from_exchange(stringstream& resp);
     void init_maximums();
+    void print_positions();
 };
 
 class Utils {
