@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
             util.sell("BOND", 1004, 5);
         }
 
-        //buyXLF(util, state);
+        buyXLF(util, state);
 		//pennyAllDaStocks(&util);
         usleep(1000 * 100);
 	}
