@@ -54,7 +54,7 @@ void Utils::sell(string sym, int price, int qty) {
     string order_str = join(" ", order);
     cout << "Sending sell order: " << order_str << endl;
 
-    Order order_obj(order_id - 1, sym, price, qty, "BUY");
+    Order order_obj(order_id - 1, sym, price, qty, "SELL");
     state.orders[order_id - 1] = order_obj;
 
     conn.send_to_exchange(order_str);
