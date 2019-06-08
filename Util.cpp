@@ -40,6 +40,10 @@ void Utils::sell(string sym, int price, int qty) {
     if (state.open.find(sym) == state.open.end()) {
         return;
     }
+
+    if (state.positions[sym] - qty - state.our_book[sym].total_sell < -state.maximums[sym]) {
+        return;
+    }
     vector<string> order;
     order.push_back("ADD");
     order.push_back(to_string(order_id++));
