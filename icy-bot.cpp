@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 
         buyXLF(util, state);
 		//pennyAllDaStocks(&util);
-        checkLimits(&util, state);
+      //  checkLimits(&util, state);
         usleep(1000 * 100);
 	}
 
