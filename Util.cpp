@@ -165,14 +165,17 @@ void Utils::parse_message(string resp) {
         if (stock != "BOND") {
           int former_price = (state.fairvalues[stock]).second;
           int n = (state.fairvalues[stock]).first;
-          if (n > 50) {
-            n = 1;
-            state.fairvalues[stock].second = (n * former_price + trade_price) / (n + 1);
-            state.fairvalues[stock].first = n+1;
-          }
-          else if (n == 0) {
+
+          if (n == 0) {
             state.fairvalues[stock].second  = trade_price;
             state.fairvalues[stock].first = 1;
+          }
+          else {
+            if (n > 50) {
+              n = 1;
+            }
+            state.fairvalues[stock].second = (n * former_price + trade_price) / (n + 1);
+            state.fairvalues[stock].first = n+1;
           }
         }
     }
