@@ -26,7 +26,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     // Be very careful with this boolean! It switches between test and prod
-    bool test_mode = true;
+    bool test_mode = false;
     Configuration config(test_mode);
     Connection conn(config);
     State state;
