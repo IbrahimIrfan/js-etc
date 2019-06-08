@@ -1,3 +1,4 @@
 git pull
-make
-./icy-bot
+while true:
+  make
+  ./icy-bot
