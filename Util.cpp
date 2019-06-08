@@ -148,7 +148,6 @@ void Utils::parse_message(string resp) {
 		minSellVal = minSellVal.substr(0, minSellVal.find(":"));
 
 		state.book_vals[sym] = make_pair(atoi(maxBuyVal.c_str()), atoi(minSellVal.c_str()));
-		cout << maxBuyVal << " and " << minSellVal << endl;
     }
     else if (type == "TRADE") {
         // cout << "Server: " << resp << endl;
