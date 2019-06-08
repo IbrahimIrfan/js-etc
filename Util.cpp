@@ -41,6 +41,7 @@ void Utils::sell(string sym, int price, int qty) {
         return;
     }
 
+    cout << state.positions[sym] << " " << qty << " " << state.our_book[sym].total_sell << endl;
     if (abs(state.positions[sym]) + qty + state.our_book[sym].total_sell > state.maximums[sym]) {
         return;
     }
