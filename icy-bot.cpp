@@ -58,8 +58,8 @@ void pennyAllDaStocks(Utils *util){
 			int bestSell = book_vals[stocks[i]].second;
 
 			if (bestSell - bestBuy > 5) {
-				util->buy(stocks[i], bestBuy - 1, 1);
-				util->sell(stocks[i], bestSell + 1, 1);
+				util->buy(stocks[i], bestBuy + 1, 1);
+				util->sell(stocks[i], bestSell - 1, 1);
 			}
 		}
 	}
