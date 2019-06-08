@@ -187,11 +187,11 @@ int main(int argc, char *argv[])
     data.push_back(string("HELLO"));
     data.push_back(config.team_name);
     data.push_back(string("add"));
-    data.push_back(1);
+    data.push_back(string("1"));
     data.push_back(string("BOND"));
     data.push_back(string("BUY"));
-    data.push_back(999);
-    data.push_back(50);
+    data.push_back(string("999"));
+    data.push_back(string("50"));
     /*
       A common mistake people make is to conn.send_to_exchange() > 1
       time for every conn.read_from_exchange() response.
