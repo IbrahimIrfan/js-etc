@@ -63,14 +63,16 @@ class State {
 public:
     unordered_map<string, int> positions;
     unordered_map<string, int> maximums;
+    unordered_map<string, int> fairvalues;
     unordered_map<int, Order> orders;
     unordered_map<string, pair<int, int>> book_vals;
     unordered_set<string> open;
-    unordered_map<string, int> fairvalues;
+    unordered_map<string, unordered_map<int, int>> our_book;
 
     void get_positions_from_exchange(stringstream& resp);
     void init();
     void print_positions();
+    int fair_xlf();
 };
 
 class Utils {

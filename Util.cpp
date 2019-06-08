@@ -156,13 +156,22 @@ void Utils::parse_message(string resp) {
         string stock;
         int trade_price, qty;
         ss >> stock >> trade_price >> qty;
-        state.fairvalues[stock] = trade_price;
+        if (stock != "BOND") {
+            state.fairvalues[stock] = trade_price;
+        }
     }
     else if (type == "ACK") {
         cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders[order_id].acked = true;
+        Order o = state.orders[order_id];
+        unordered_map<int, int>& price_count = state.our_book[o.symbol];
+        if (price_count.find(o.price) != price_count.end()) {
+            price_count[o.price] += o.qty;
+        } else {
+            price_count[o.price] = o.qty;
+        }
     }
     else if (type == "REJECT") {
         cout << "Server: " << resp << endl;
@@ -182,6 +191,13 @@ void Utils::parse_message(string resp) {
         } else {
             state.positions["USD"] += price * qty;
             state.positions[sym] -= qty;
+        }
+
+        Order o = state.orders[order_id];
+        unordered_map<int, int>& price_count = state.our_book[o.symbol];
+        price_count[o.price] -= qty;
+        if (price_count[o.price] == 0) {
+            price_count.erase(o.price);
         }
     }
     else if (type == "OUT") {
@@ -300,6 +316,12 @@ void State::get_positions_from_exchange(stringstream& ss) {
     }
 }
 
+int State::fair_xlf() {
+    return fairvalues["BOND"] * 3 + 
+           fairvalues["GS"] * 2 + 
+           fairvalues["MS"] * 3 + 
+           fairvalues["WFC"] * 2;
+}
 
 void State::print_positions() {
     for (auto position : positions) {
@@ -310,7 +332,7 @@ void State::print_positions() {
 void State::init() {
 	book_vals["BOND"] = make_pair(998, 1002);
 
-    fairvalues["BOND"] = 0;
+    fairvalues["BOND"] = 1000;
     fairvalues["VALBZ"] = 0;
     fairvalues["VALE"] = 0;
     fairvalues["GS"] = 0;
