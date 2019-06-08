@@ -53,7 +53,7 @@ void buyXLF(Utils util, State state) {
     double xlf = state.fairvalues["XLF"];
 
     int margin = 15;
-    int buy_factor = 1;
+    int buy_factor = 3;
 
     if (gs <= 0 || ms <= 0 || wfc <= 0 || xlf <= 0) {
         return;
