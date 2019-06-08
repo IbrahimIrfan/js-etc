@@ -128,19 +128,17 @@ void Utils::parse_message(string resp) {
     }
     else if (type == "BOOK") {
 		// Parse the line
-		stringstream newss(resp);
-
     	vector<string> words;
 		string tmp;
-    	while (newss >> tmp) {
+    	while (ss >> tmp) {
         	words.push_back(tmp);
     	}
-		string sym = words[1];
+		string sym = words[0];
 
-		string maxBuyVal = words[3];
+		string maxBuyVal = words[2];
 		maxBuyVal = maxBuyVal.substr(0, maxBuyVal.find(":"));
 
-		int curWord = 3;
+		int curWord = 2;
 		while (words[curWord] != "SELL") {
 			curWord++;
 		}
