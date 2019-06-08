@@ -93,6 +93,45 @@ void pennyAllDaStocks(Utils *util){
 	}
 }
 
+void sellIfTooHigh(Utils *util, string symbol, int qnt) {
+	util->sell(symbol, util->state.fairvalues[symbol], qnt);
+}
+
+void buyIfTooLow(Utils *util, string symbol, int qnt) {
+	util->buy(symbol, util->state.fairvalues[symbol], qnt);
+}
+
+
+void checkLimits(Utils *util, State state) {
+
+  BookEntry gs = state.our_book["GS"];
+  BookEntry ms = state.our_book["MS"];
+  BookEntry wfc = state.our_book["WFC"];
+
+  if (gs.total_buy > 95) {
+    sellIfTooHigh(util, "GS", 1);
+  }
+  else if (gs.total_sell < -95) {
+    buyIfTooLow(util, "GS", 1);
+  }
+
+
+  if (ms.total_buy > 95) {
+    sellIfTooHigh(util, "MS", 1);
+  }
+  else if (ms.total_sell < -95) {
+    buyIfTooLow(util, "MS", 1);
+  }
+
+  if (wfc.total_buy > 95) {
+    sellIfTooHigh(util, "WFC", 1);
+  }
+  else if (wfc.total_sell < -95) {
+    buyIfTooLow(util, "WFC", 1);
+  }
+
+}
+
 int main(int argc, char *argv[])
 {
     // Be very careful with this boolean! It switches between test and prod
@@ -142,6 +181,7 @@ int main(int argc, char *argv[])
 
         buyXLF(util, state);
 		//pennyAllDaStocks(&util);
+        checkLimits(&util, state);
         usleep(1000 * 100);
 	}
 
