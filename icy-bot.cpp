@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
     data.push_back(string("HELLO"));
     data.push_back(config.team_name);
     data.push_back(string("\n"));
-    data.push_back(string("add"));
+    data.push_back(string("ADD"));
     data.push_back(string("1"));
     data.push_back(string("BOND"));
     data.push_back(string("BUY"));
