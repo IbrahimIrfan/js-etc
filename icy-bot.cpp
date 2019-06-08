@@ -63,9 +63,9 @@ int main(int argc, char *argv[])
 
 	while (true) {
         // ETF arbitrage detection
-        if (state.fair_xlf() > state.fairvalues["XLF"]) {
+        if (state.fair_xlf() > state.fairvalues["XLF"].second) {
             //util.buy("XLF", state.book_vals["XLF"], 10);
-            cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"] << endl;
+            cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"].second << endl;
         }
 
         util.buy("BOND", 999, 5);
