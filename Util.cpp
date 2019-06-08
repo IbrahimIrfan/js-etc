@@ -238,6 +238,7 @@ void State::get_positions_from_exchange(stringstream& ss) {
         getline(ss, symbol, ':');
         positions[symbol] = 0;
         ss >> positions[symbol];
+        getline(ss, symbol, ' ');
     }
 }
 
