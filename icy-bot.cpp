@@ -74,6 +74,7 @@ void buyXLF(Utils util, State state) {
     }
 }
 
+
 void pennyAllDaStocks(Utils *util){
 	vector<string> stocks = {"GS", "MS", "WFC"};
 
@@ -154,7 +155,7 @@ int main(int argc, char *argv[])
 
         buyXLF(util, state);
       //  checkLimits(&util, state);
-		pennyAllDaStocks(&util);
+		//pennyAllDaStocks(&util);
         usleep(1000 * 100);
 	}
 
