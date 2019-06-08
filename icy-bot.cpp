@@ -45,7 +45,7 @@ void buyValbzVales(Utils util, State state) {
 //     util.buy("VALBZ", min(valbzBuyBookvalue, valbzFairvalue) + 1, 2);
 //     util.sell("VALE", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
 //     util.sell("VALBZ", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
-// }
+}
 
 int main(int argc, char *argv[])
 {
