@@ -1,3 +1,7 @@
 git pull
 make
-./icy-bot
+while true; do 
+	./icy-bot;
+	sleep 5;
+done
+
