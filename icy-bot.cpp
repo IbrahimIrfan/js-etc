@@ -114,10 +114,32 @@ int main(int argc, char *argv[])
     thread read_from_server(parse_loop, &util);
 
 	while (true) {
-        // ETF arbitrage detection
+        if (state.our_book["BOND"].buys[999] < 50) {
+            util.buy("BOND", 999, 1);
+        }
+        if (state.our_book["BOND"].buys[998] < 25) {
+            util.buy("BOND", 998, 1);
+        }
+        if (state.our_book["BOND"].buys[997] < 13) {
+            util.buy("BOND", 997, 1);
+        }
+        if (state.our_book["BOND"].buys[996] < 12) {
+            util.buy("BOND", 996, 1);
+        }
 
-        util.buy("BOND", 999, 5);
-        util.sell("BOND", 1001, 5);
+        if (state.our_book["BOND"].buys[1001] < 50) {
+            util.sell("BOND", 1001, 1);
+        }
+        if (state.our_book["BOND"].buys[1002] < 25) {
+            util.sell("BOND", 1002, 1);
+        }
+        if (state.our_book["BOND"].buys[1003] < 13) {
+            util.sell("BOND", 1003, 1);
+        }
+        if (state.our_book["BOND"].buys[1004] < 12) {
+            util.sell("BOND", 1004, 1);
+        }
+
         //buyXLF(util, state);
 		//pennyAllDaStocks(&util);
         usleep(1000 * 100);
