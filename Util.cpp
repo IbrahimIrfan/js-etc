@@ -134,7 +134,7 @@ void Utils::parse_message(string resp) {
       string stock;
       int trade_price, qty;
       ss >> stock >> trade_price >> qty;
-      fairvalues[stock] = trade_price;
+      state.fairvalues[stock] = trade_price;
     }
     else if (type == "ACK") {
         cout << "Server: " << resp << endl;
