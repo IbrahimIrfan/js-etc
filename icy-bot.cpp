@@ -115,29 +115,29 @@ int main(int argc, char *argv[])
 
 	while (true) {
         if (state.our_book["BOND"].buys[999] < 50) {
-            util.buy("BOND", 999, 1);
+            util.buy("BOND", 999, 5);
         }
         if (state.our_book["BOND"].buys[998] < 25) {
-            util.buy("BOND", 998, 1);
+            util.buy("BOND", 998, 5);
         }
-        if (state.our_book["BOND"].buys[997] < 13) {
-            util.buy("BOND", 997, 1);
+        if (state.our_book["BOND"].buys[997] < 15) {
+            util.buy("BOND", 997, 5);
         }
-        if (state.our_book["BOND"].buys[996] < 12) {
-            util.buy("BOND", 996, 1);
+        if (state.our_book["BOND"].buys[996] < 10) {
+            util.buy("BOND", 996, 5);
         }
 
         if (state.our_book["BOND"].sells[1001] < 50) {
-            util.sell("BOND", 1001, 1);
+            util.sell("BOND", 1001, 5);
         }
         if (state.our_book["BOND"].sells[1002] < 25) {
-            util.sell("BOND", 1002, 1);
+            util.sell("BOND", 1002, 5);
         }
-        if (state.our_book["BOND"].sells[1003] < 13) {
-            util.sell("BOND", 1003, 1);
+        if (state.our_book["BOND"].sells[1003] < 15) {
+            util.sell("BOND", 1003, 5);
         }
-        if (state.our_book["BOND"].sells[1004] < 12) {
-            util.sell("BOND", 1004, 1);
+        if (state.our_book["BOND"].sells[1004] < 10) {
+            util.sell("BOND", 1004, 5);
         }
 
         //buyXLF(util, state);
