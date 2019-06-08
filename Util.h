@@ -66,7 +66,7 @@ public:
     unordered_map<int, Order> orders;
     unordered_map<string, pair<int, int>> book_vals;
     unordered_set<string> open;
-    unordered_map<string, int> fairvalues;
+    unordered_map<string, pair<int,int>> fairvalues; // <stock, <count, price>> 
 
     void get_positions_from_exchange(stringstream& resp);
     void init();

@@ -33,6 +33,20 @@ void parse_loop(Utils *util) {
     }
 }
 
+void buyValbzVales() {
+    // int valbzFairvalue = fairvalues["VALBZ"];
+    // int valbzBuyBookvalue = state.book_vals["VALBZ"].first;
+    // int valbzSellBookvalue = state.book_vals["VALBZ"].first;
+    // int valeFairvalue = fairvalues["VALE"];
+    // int valeBuyBookvalue = state.book_vals["VALE"].first;
+    // int valeSellBookvalue = state.book_vals["VALE"].first;
+    //
+    // util.buy("VALE", min(valbzBuyBookvalue, valbzFairvalue) + 1, 2);
+    // util.buy("VALBZ", min(valbzBuyBookvalue, valbzFairvalue) + 1, 2);
+    // util.sell("VALE", min(valeSellBookvalue, valbzFairvalue) - 1, 2);
+    // util.sell("VALBZ", min(valbzSellBookvalue, valbzFairvalue) - 1, 2);
+}
+
 int main(int argc, char *argv[])
 {
     // Be very careful with this boolean! It switches between test and prod

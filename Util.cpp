@@ -152,7 +152,10 @@ void Utils::parse_message(string resp) {
         string stock;
         int trade_price, qty;
         ss >> stock >> trade_price >> qty;
-        state.fairvalues[stock] = trade_price;
+        int former_price = state.fairvalues[stock].second;
+        int n = state.fairvalues[stock].first;
+        state.fairvalues[stock].second = (n * former_price + trade_price) / (n + 1);
+        state.fairvalues[stock].first = n+1;
     }
     else if (type == "ACK") {
         cout << "Server: " << resp << endl;
@@ -306,13 +309,13 @@ void State::print_positions() {
 void State::init() {
 	book_vals["BOND"] = make_pair(998, 1002);
 
-    fairvalues["BOND"] = 0;
-    fairvalues["VALBZ"] = 0;
-    fairvalues["VALE"] = 0;
-    fairvalues["GS"] = 0;
-    fairvalues["MS"] = 0;
-    fairvalues["WFC"] = 0;
-    fairvalues["XLF"] = 0;
+    fairvalues["BOND"] = make_pair(1, 1000);
+    fairvalues["VALBZ"] = make_pair(0, 0);
+    fairvalues["VALE"] = make_pair(0, 0);
+    fairvalues["GS"] = make_pair(0, 0);
+    fairvalues["MS"] = make_pair(0, 0);
+    fairvalues["WFC"] = make_pair(0, 0);
+    fairvalues["XLF"] = make_pair(0, 0);
 
     maximums["BOND"] = 100;
     maximums["VALBZ"] = 10;
