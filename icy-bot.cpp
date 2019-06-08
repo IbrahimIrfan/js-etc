@@ -36,8 +36,11 @@ int main(int argc, char *argv[])
     util.hello();
 	while (true) {
 		cout << conn.read_from_exchange() << endl;
-        util.buy("BOND",999,10);
-        util.sell("BOND",1001,10);
+        util.buy("BOND",997,10);
+        util.sell("BOND",1003,10);
+        usleep(1000 * 100);
+        util.buy("BOND",999,5);
+        util.sell("BOND",1001,5);
         usleep(1000 * 100);
 	}
 
