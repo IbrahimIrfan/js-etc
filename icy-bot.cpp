@@ -42,6 +42,9 @@ int main(int argc, char *argv[])
         util.buy("BOND",999,5);
         util.sell("BOND",1001,5);
         usleep(1000 * 100);
+        util.buy("BOND",990,5);
+        util.sell("BOND",1010,5);
+        usleep(1000 * 100);
 	}
 
     return 0;
