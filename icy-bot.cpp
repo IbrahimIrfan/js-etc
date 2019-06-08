@@ -79,16 +79,10 @@ void pennyAllDaStocks(Utils *util){
 	vector<string> stocks = {"GS", "MS", "WFC"};
 
 	for (int i = 0; i < stocks.size(); i++) {
-		unordered_map<string, pair<int, int>> book_vals = util->state.book_vals;
-		if (book_vals.find(stocks[i]) != book_vals.end()) {
-			// check if we can penny
-			int bestBuy = book_vals[stocks[i]].first;
-			int bestSell = book_vals[stocks[i]].second;
-
-			if (bestSell - bestBuy > 5) {
-				util->buy(stocks[i], bestBuy + 1, 1);
-				util->sell(stocks[i], bestSell - 1, 1);
-			}
+		double fv = util->state.fairvalues[stocks[i]];
+		if (fv > 0) {
+			util->buy(stocks[i], fv - 8, 1);
+			util->sell(stocks[i], fv + 8, 1);
 		}
 	}
 }
@@ -116,11 +110,11 @@ int main(int argc, char *argv[])
 	while (true) {
         // ETF arbitrage detection
 
-        util.buy("BOND", 999, 5);
-        util.sell("BOND", 1001, 5);
-        buyXLF(util, state);
+        //util.buy("BOND", 999, 5);
+        //util.sell("BOND", 1001, 5);
+        //buyXLF(util, state);
+		pennyAllDaStocks(&util);
         usleep(1000 * 100);
-		//pennyAllDaStocks(&util);
 	}
 
     return 0;
