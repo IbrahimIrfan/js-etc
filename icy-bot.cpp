@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 
     util.buy("BOND",999,1);
 	while (true) {
-		conn.read_from_exchange();
+		cout << conn.read_from_exchange();
 	}
 
     return 0;
