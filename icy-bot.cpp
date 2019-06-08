@@ -55,8 +55,8 @@ void buyXLF(Utils util, State state) {
 
   cout << "fairvalues gs: " << gs <<  " ms: " << ms << " wfc: " << wfc << " xlf: " << xlf << endl;
   double profit = state.fair_xlf();
-  cout << "profit: "<< profit << " xlf: "<< xlf << endl;; 
-  if ((profit-5 > xlf) && (gs > 0) && (ms > 0) && (wfc > 0)) {
+  cout << "profit: "<< profit << " xlf: "<< xlf << endl;;
+  if ((profit-5 > xlf) && (xlf > 0) && (gs > 0) && (ms > 0) && (wfc > 0)) {
 
       util.buy("XLF", xlf+1, 10);
       cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"] << endl;
