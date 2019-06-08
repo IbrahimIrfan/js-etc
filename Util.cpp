@@ -77,12 +77,13 @@ void Utils::parse_message(string resp) {
 
     string type;
     ss >> type;
-    cout << "Server: " << resp << endl;
 
     if (type == "HELLO") {
+    	cout << "Server: " << resp << endl;
         state.get_positions_from_exchange(ss);
     }
     else if (type == "OPEN") {
+    	cout << "Server: " << resp << endl;
         string sym;
         while (ss) {
             getline(ss, sym, ' ');
@@ -90,6 +91,7 @@ void Utils::parse_message(string resp) {
         }
     }
     else if (type == "CLOSE") {
+    	cout << "Server: " << resp << endl;
         string sym;
         while (ss) {
             getline(ss, sym, ' ');
@@ -97,6 +99,7 @@ void Utils::parse_message(string resp) {
         }
     }
     else if (type == "ERROR") {
+    	cout << "Server: " << resp << endl;
         // Nothing to do
     }
     else if (type == "BOOK") {
@@ -105,16 +108,19 @@ void Utils::parse_message(string resp) {
     else if (type == "TRADE") {
     }
     else if (type == "ACK") {
+    	cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders[order_id].acked = true;
     }
     else if (type == "REJECT") {
+    	cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders.erase(order_id);
     }
     else if (type == "FILL") {
+    	cout << "Server: " << resp << endl;
         int order_id, price, qty;
         string sym, dir;
         ss >> order_id >> sym >> dir >> price >> qty;
@@ -128,6 +134,7 @@ void Utils::parse_message(string resp) {
         }
     }
     else if (type == "OUT") {
+    	cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders.erase(order_id);
