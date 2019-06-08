@@ -1,7 +1,7 @@
 git pull
 make
 while true; do 
-	TEST=false ./icy-bot;
+	TEST=true ./icy-bot;
 	sleep 5;
 done
 
