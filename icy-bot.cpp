@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
             // util.sell("WFC", state.fairvalues["WFC"].second-1, 2);
         }
 
-        util.buy("BOND", 999, 5);
-        util.sell("BOND", 1001, 5);
+//        util.buy("BOND", 999, 5);
+ //       util.sell("BOND", 1001, 5);
         usleep(1000 * 100);
 		pennyAllDaStocks(&util);
 	}
