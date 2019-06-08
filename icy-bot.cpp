@@ -82,7 +82,7 @@ void pennyAllDaStocks(Utils *util){
 		unordered_map<string, pair<int, int>> bv = util->state.book_vals;
 		if (bv.find(stocks[i]) != bv.end()) {
 			double fv = util->state.fairvalues[stocks[i]];
-			if (bv[stocks[i]].first + 5 < fv) {
+			if (bv[stocks[i]].first + 3 < fv) {
 				if (fv > 0) {
 					util->buy(stocks[i], bv[stocks[i]].first + 1, 1);
 					util->sell(stocks[i], bv[stocks[i]].second - 1, 1);
