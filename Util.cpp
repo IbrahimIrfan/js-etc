@@ -170,8 +170,18 @@ void Utils::parse_message(string resp) {
         int order_id;
         ss >> order_id;
         state.orders[order_id].acked = true;
-        Order o = state.orders[order_id];
-        unordered_map<int, int>& price_count = state.our_book[o.symbol];
+
+        Order& o = state.orders[order_id];
+        BookEntry& be = state.our_book[o.symbol];
+
+        unordered_map<int, int>& price_count = be.get_by_dir(o.dir);
+
+        if (o.dir == "BUY") {
+            be.total_buy += o.qty;
+        } else {
+            be.total_sell += o.qty;
+        }
+
         if (price_count.find(o.price) != price_count.end()) {
             price_count[o.price] += o.qty;
         } else {
@@ -190,16 +200,20 @@ void Utils::parse_message(string resp) {
         string sym, dir;
         ss >> order_id >> sym >> dir >> price >> qty;
 
+        Order o = state.orders[order_id];
+        BookEntry& be = state.our_book[o.symbol];
+
         if (dir == "BUY") {
             state.positions["USD"] -= price * qty;
             state.positions[sym] += qty;
+            be.total_buy -= qty;
         } else {
             state.positions["USD"] += price * qty;
             state.positions[sym] -= qty;
+            be.total_sell -= qty;
         }
+        unordered_map<int, int>& price_count = be.get_by_dir(dir);
 
-        Order o = state.orders[order_id];
-        unordered_map<int, int>& price_count = state.our_book[o.symbol];
         price_count[o.price] -= qty;
         if (price_count[o.price] == 0) {
             price_count.erase(o.price);
@@ -360,4 +374,16 @@ void State::init() {
     open.insert("MS");
     open.insert("WFC");
     open.insert("XLF");
+
+    our_book.emplace("BOND", BookEntry());
+}
+
+BookEntry::BookEntry() : total_buy{0}, total_sell{0} {}
+
+unordered_map<int, int>& BookEntry::get_by_dir(string dir) {
+    if (dir == "BUY") {
+        return buys;
+    } else {
+        return sells;
+    }
 }

@@ -58,6 +58,18 @@ public:
   string read_from_exchange();
 };
 
+class BookEntry {
+public:
+    int total_buy;
+    unordered_map<int, int> buys;
+    int total_sell;
+    unordered_map<int, int> sells;
+
+    BookEntry();
+
+    unordered_map<int, int>& get_by_dir(string dir);
+};
+
 
 class State {
 public:
@@ -67,7 +79,7 @@ public:
     unordered_map<string, pair<int, int>> book_vals;
     unordered_set<string> open;
     unordered_map<string, pair<int,int>> fairvalues; // <stock, <count, price>>
-    unordered_map<string, unordered_map<int, int>> our_book;
+    unordered_map<string, BookEntry> our_book;
 
     void get_positions_from_exchange(stringstream& resp);
     void init();
