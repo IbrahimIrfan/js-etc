@@ -63,15 +63,15 @@ void buyXLF(Utils util, State state) {
     if (sum_stocks > xlf + margin) {
         util.buy("XLF", xlf, 10 * buy_factor);
         util.convert_to_stocks("XLF", 10 * buy_factor);
-        util.sell("GS", gs, 2 * buy_factor);
-        util.sell("MS", ms, 3 * buy_factor);
-        util.sell("WFC", wfc, 2 * buy_factor);
+        util.sell("GS", gs-1, 2 * buy_factor);
+        util.sell("MS", ms-1, 3 * buy_factor);
+        util.sell("WFC", wfc-1, 2 * buy_factor);
     } else if (xlf > sum_stocks + margin) {
         util.buy("GS", gs, 2 * buy_factor);
         util.buy("MS", ms, 3 * buy_factor);
         util.buy("WFC", wfc, 2 * buy_factor);
         util.convert_to_obj("XLF", 10 * buy_factor);
-        util.sell("XLF", xlf, 10 * buy_factor);
+        util.sell("XLF", xlf-1, 10 * buy_factor);
     }
 }
 
