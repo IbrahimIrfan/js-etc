@@ -93,6 +93,14 @@ void pennyAllDaStocks(Utils *util){
 	}
 }
 
+void sellIfTooHigh(Utils *util, string symbol, int qnt) {
+	util->sell(symbol, util->state.fairvalues[symbol], qnt);
+}
+
+void buyIfTooLow(Utils *util, string symbol, int qnt) {
+	util->buy(symbol, util->state.fairvalues[symbol], qnt);
+}
+
 int main(int argc, char *argv[])
 {
     // Be very careful with this boolean! It switches between test and prod
