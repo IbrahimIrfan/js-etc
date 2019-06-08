@@ -14,6 +14,7 @@ void Utils::hello() {
 }
 
 void Utils::buy(string sym, int price, int qty) {
+    order_id++;
     if (state.open.find(sym) == state.open.end()) {
         return;
     }
@@ -22,7 +23,7 @@ void Utils::buy(string sym, int price, int qty) {
     }
     vector<string> order;
     order.push_back("ADD");
-    order.push_back(to_string(order_id++));
+    order.push_back(to_string(order_id));
     order.push_back(sym);
     order.push_back("BUY");
     order.push_back(to_string(price));
@@ -37,6 +38,7 @@ void Utils::buy(string sym, int price, int qty) {
 }
 
 void Utils::sell(string sym, int price, int qty) {
+    order_id++;
     if (state.open.find(sym) == state.open.end()) {
         return;
     }
@@ -46,7 +48,7 @@ void Utils::sell(string sym, int price, int qty) {
     }
     vector<string> order;
     order.push_back("ADD");
-    order.push_back(to_string(order_id++));
+    order.push_back(to_string(order_id));
     order.push_back(sym);
     order.push_back("SELL");
     order.push_back(to_string(price));
@@ -61,12 +63,13 @@ void Utils::sell(string sym, int price, int qty) {
 }
 
 void Utils::convert_to_stocks(string sym, int qty) {
+    order_id++;
     if (state.open.find(sym) == state.open.end()) {
         return;
     }
     vector<string> order;
     order.push_back("CONVERT");
-    order.push_back(to_string(order_id++));
+    order.push_back(to_string(order_id));
     order.push_back(sym);
     order.push_back("BUY");
     order.push_back(to_string(qty));
@@ -76,12 +79,13 @@ void Utils::convert_to_stocks(string sym, int qty) {
 }
 
 void Utils::convert_to_obj(string sym, int qty) {
+    order_id++;
     if (state.open.find(sym) == state.open.end()) {
         return;
     }
     vector<string> order;
     order.push_back("CONVERT");
-    order.push_back(to_string(order_id++));
+    order.push_back(to_string(order_id));
     order.push_back(sym);
     order.push_back("SELL");
     order.push_back(to_string(qty));
