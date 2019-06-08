@@ -41,7 +41,7 @@ void Utils::sell(string sym, int price, int qty) {
         return;
     }
 
-    if (state.positions[sym] - qty - state.our_book[sym].total_sell < -state.maximums[sym]) {
+    if (abs(state.positions[sym]) + qty + state.our_book[sym].total_sell > state.maximums[sym]) {
         return;
     }
     vector<string> order;
