@@ -1,1 +1,1 @@
-#define RUNNING_AVG 10
+#define RUNNING_AVG 30

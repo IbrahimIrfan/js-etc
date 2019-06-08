@@ -79,7 +79,7 @@ void pennyAllDaStocks(Utils *util){
 		unordered_map<string, pair<int, int>> bv = util->state.book_vals;
 		if (bv.find(stocks[i]) != bv.end()) {
 			double fv = util->state.fairvalues[stocks[i]];
-			if (bv[stocks[i]].first + 5 < fv) {
+			if (bv[stocks[i]].first + 3 < fv) {
 				if (fv > 0) {
 					util->buy(stocks[i], bv[stocks[i]].first + 1, 1);
 					util->sell(stocks[i], bv[stocks[i]].second - 1, 1);
@@ -112,29 +112,29 @@ int main(int argc, char *argv[])
 
 	while (true) {
         if (state.our_book["BOND"].buys[999] < 50) {
-            util.buy("BOND", 999, 1);
+            util.buy("BOND", 999, 5);
         }
         if (state.our_book["BOND"].buys[998] < 25) {
-            util.buy("BOND", 998, 1);
+            util.buy("BOND", 998, 5);
         }
-        if (state.our_book["BOND"].buys[997] < 13) {
-            util.buy("BOND", 997, 1);
+        if (state.our_book["BOND"].buys[997] < 15) {
+            util.buy("BOND", 997, 5);
         }
-        if (state.our_book["BOND"].buys[996] < 12) {
-            util.buy("BOND", 996, 1);
+        if (state.our_book["BOND"].buys[996] < 10) {
+            util.buy("BOND", 996, 5);
         }
 
-        if (state.our_book["BOND"].buys[1001] < 50) {
-            util.sell("BOND", 1001, 1);
+        if (state.our_book["BOND"].sells[1001] < 50) {
+            util.sell("BOND", 1001, 5);
         }
-        if (state.our_book["BOND"].buys[1002] < 25) {
-            util.sell("BOND", 1002, 1);
+        if (state.our_book["BOND"].sells[1002] < 25) {
+            util.sell("BOND", 1002, 5);
         }
-        if (state.our_book["BOND"].buys[1003] < 13) {
-            util.sell("BOND", 1003, 1);
+        if (state.our_book["BOND"].sells[1003] < 15) {
+            util.sell("BOND", 1003, 5);
         }
-        if (state.our_book["BOND"].buys[1004] < 12) {
-            util.sell("BOND", 1004, 1);
+        if (state.our_book["BOND"].sells[1004] < 10) {
+            util.sell("BOND", 1004, 5);
         }
 
         //buyXLF(util, state);

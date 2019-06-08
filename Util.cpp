@@ -154,6 +154,7 @@ void Utils::parse_message(string resp) {
 
 		minBuyVal = minBuyVal.substr(0, minBuyVal.find(":"));
 		minSellVal = minSellVal.substr(0, minSellVal.find(":"));
+		cout << symbol << ": buy at " << minBuyVal << " ---- sell at " << minSellVal << endl;
 		state.book_vals[symbol] = make_pair(atoi(minBuyVal.c_str()), atoi(minSellVal.c_str()));
     }
     else if (type == "TRADE") {
