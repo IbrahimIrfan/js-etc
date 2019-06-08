@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Utils::Utils(Connection& conn) : order_id{0}, conn{conn} {}
+Utils::Utils(Connection& conn) : order_id{1}, conn{conn} {}
 
 void Utils::buy(string sym, int price, int qty) {
     vector<string> order;
