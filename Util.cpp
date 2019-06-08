@@ -12,6 +12,7 @@ void Utils::buy(string sym, int price, int qty) {
     order.push_back("BUY");
     order.push_back(to_string(price));
     order.push_back(to_string(qty));
+    order.push_back("\n");
     string order_str = join(" ", order);
     cout << "Sending buy order: " << order_str << endl;
     conn.send_to_exchange(order_str);
