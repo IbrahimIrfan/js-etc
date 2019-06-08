@@ -46,28 +46,35 @@ void buyValbzVales(Utils util, State state) {
 }
 
 void buyXLF(Utils util, State state) {
+    int bond = 1001;
+    double gs = state.fairvalues["GS"];
+    double ms = state.fairvalues["MS"];
+    double wfc = state.fairvalues["WFC"];
+    double xlf = state.fairvalues["XLF"];
 
-  int bond = 1001;
-  double gs = state.fairvalues["GS"];
-  double ms = state.fairvalues["MS"];
-  double wfc = state.fairvalues["WFC"];
-  double xlf = state.fairvalues["XLF"];
+    int margin = 10;
+    int buy_factor = 1;
 
-  cout << "fairvalues gs: " << gs <<  " ms: " << ms << " wfc: " << wfc << " xlf: " << xlf << endl;
-  double profit = state.fair_xlf();
-  cout << "profit: "<< profit << " xlf: "<< xlf << endl;;
-  if ((profit-5 > xlf) && (xlf > 0) && (gs > 0) && (ms > 0) && (wfc > 0)) {
+    if (gs <= 0 || ms <= 0 || wfc <= 0 || xlf <= 0) {
+        return;
+    }
 
-      util.buy("XLF", xlf+1, 10);
-      cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"] << endl;
-      util.convert_to_stocks("XLF", 10);
-      util.sell("BOND", 1001, 3);
-      util.sell("GS", gs-1, 2);
-      util.sell("MS", ms-1, 3);
-      util.sell("WFC", wfc-1, 2);
-
-  }
-
+    double sum_stocks = state.fair_xlf();
+    if (sum_stocks > xlf + margin) {
+        util.buy("XLF", xlf, 10 * buy_factor);
+        util.convert_to_stocks("XLF", 10 * buy_factor);
+        util.sell("BOND", 1000, 3 * buy_factor);
+        util.sell("GS", gs, 2 * buy_factor);
+        util.sell("MS", ms, 3 * buy_factor);
+        util.sell("WFC", wfc, 2 * buy_factor);
+    } else if (xlf > sum_stocks + margin) {
+        util.buy("BOND", 1000, 3 * buy_factor);
+        util.buy("GS", gs, 2 * buy_factor);
+        util.buy("MS", ms, 3 * buy_factor);
+        util.buy("WFC", wfc, 2 * buy_factor);
+        util.convert_to_obj("XLF", 10 * buy_factor);
+        util.sell("XLF", xlf, 10 * buy_factor);
+    }
 }
 
 void pennyAllDaStocks(Utils *util){
