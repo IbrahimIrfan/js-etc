@@ -35,14 +35,14 @@ void parse_loop(Utils *util) {
 
 void buyValbzVales(Utils util, State state) {
 
-    // int valbzFairvalue = state.fairvalues["VALBZ"].second;
-    // int valeFairvalue = state.fairvalues["VALE"].second;
-    //
-    // if ((valbzFairvalue - valeFairvalue) > 15) {
-    //   util.buy("VALE", valbzBuyBookvalue + 1, 2);
-    //   convert_to_stocks("VALBZ", 2)
-    //   util.sell("VALE", valbzSellBookvalue - 1, 2);
-    // }
+    int valbzFairvalue = state.fairvalues["VALBZ"];
+    int valeFairvalue = state.fairvalues["VALE"];
+
+    if ((valbzFairvalue - valeFairvalue) > 15) {
+      util.buy("VALE", valbzFairvalue + 1, 2);
+      util.convert_to_stocks("VALBZ", 2);
+      util.sell("VALE", valbzFairvalue - 1, 2);
+    }
 }
 
 void buyXLF(Utils util, State state) {
