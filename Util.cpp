@@ -79,11 +79,11 @@ void Utils::parse_message(string resp) {
     ss >> type;
 
     if (type == "HELLO") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         state.get_positions_from_exchange(ss);
     }
     else if (type == "OPEN") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         string sym;
         while (ss) {
             getline(ss, sym, ' ');
@@ -91,7 +91,7 @@ void Utils::parse_message(string resp) {
         }
     }
     else if (type == "CLOSE") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         string sym;
         while (ss) {
             getline(ss, sym, ' ');
@@ -99,32 +99,37 @@ void Utils::parse_message(string resp) {
         }
     }
     else if (type == "ERROR") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         // Nothing to do
     }
     else if (type == "BOOK") {
-        // 
+        //
     }
     else if (type == "TRADE") {
+      cout << "Server: " << resp << endl;
+      string stock;
+      int trade_price, qty;
+      ss >> stock >> trade_price >> qty;
+      fairvalues[stock] = trade_price;
     }
     else if (type == "ACK") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders[order_id].acked = true;
     }
     else if (type == "REJECT") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders.erase(order_id);
     }
     else if (type == "FILL") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         int order_id, price, qty;
         string sym, dir;
         ss >> order_id >> sym >> dir >> price >> qty;
-        
+
         if (dir == "BUY") {
             state.positions["USD"] -= price * qty;
             state.positions[sym] += qty;
@@ -134,7 +139,7 @@ void Utils::parse_message(string resp) {
         }
     }
     else if (type == "OUT") {
-    	cout << "Server: " << resp << endl;
+        cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders.erase(order_id);
@@ -238,15 +243,19 @@ void State::get_positions_from_exchange(stringstream& ss) {
         getline(ss, symbol, ':');
         positions[symbol] = 0;
         ss >> positions[symbol];
+        cout << "Current position for " << symbol << ": " << positions[symbol] << endl;
     }
 }
 
-void State::print_positions() {
-    for (auto position : positions) {
-        cout << position.first << ": " << position.second << endl;
-    }
+void State::init_fairvalues() {
+    fairvalues["BOND"] = 0;
+    fairvalues["VALBZ"] = 0;
+    fairvalues["VALE"] = 0;
+    fairvalues["GS"] = 0;
+    fairvalues["MS"] = 0;
+    fairvalues["WFC"] = 0;
+    fairvalues["XLF"] = 0;
 }
-
 void State::init_maximums() {
     maximums["BOND"] = 100;
     maximums["VALBZ"] = 10;
