@@ -64,6 +64,7 @@ public:
     unordered_map<string, int> positions;
     unordered_map<string, int> maximums;
     unordered_map<int, Order> orders;
+    unordered_map<string, pair<int, int>> book_vals;
     unordered_set<string> open;
     unordered_map<string, int> fairvalues;
 

@@ -127,7 +127,28 @@ void Utils::parse_message(string resp) {
         // Nothing to do
     }
     else if (type == "BOOK") {
-        //
+		// Parse the line
+		stringstream newss(resp);
+
+    	vector<string> words;
+		string tmp;
+    	while (newss >> tmp) {
+        	words.push_back(tmp);
+    	}
+		string sym = words[1];
+
+		string maxBuyVal = words[3];
+		maxBuyVal = maxBuyVal.substr(0, maxBuyVal.find(":"));
+
+		int curWord = 3;
+		while (words[curWord] != "SELL") {
+			curWord++;
+		}
+		string minSellVal = words[curWord + 1];
+		minSellVal = minSellVal.substr(0, minSellVal.find(":"));
+
+		state.book_vals[sym] = make_pair(atoi(maxBuyVal.c_str()), atoi(minSellVal.c_str()));
+		cout << maxBuyVal << " and " << minSellVal << endl;
     }
     else if (type == "TRADE") {
         // cout << "Server: " << resp << endl;
