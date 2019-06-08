@@ -19,6 +19,7 @@
 #include <cstring>
 #include <unordered_map>
 #include "Util.h"
+#include <unistd.h>
 
 using namespace std;
 
@@ -37,6 +38,7 @@ int main(int argc, char *argv[])
 		cout << conn.read_from_exchange() << endl;
         util.buy("BOND",999,1);
         util.sell("BOND",1001,1);
+        usleep(1000 * 100);
 	}
 
     return 0;
