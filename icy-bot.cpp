@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <vector>
 #include <sstream>
+#include <sys/socket.h>
 
 /* The Configuration class is used to tell the bot how to connect
    to the appropriate exchange. The `test_exchange_index` variable
