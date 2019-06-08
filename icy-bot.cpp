@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     Connection conn(config);
     State state;
     state.init_maximums();
+    state.init_fairvalues(); 
     Utils util(config, conn, state);
 
     util.hello();
