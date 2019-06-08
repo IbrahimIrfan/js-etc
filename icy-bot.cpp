@@ -34,10 +34,10 @@ void parse_loop(Utils *util) {
 }
 
 void buyValbzVales(Utils util, State state) {
-    // int valbzFairvalue = state.fairvalues["VALBZ"].second;
+    // int valbzFairvalue = state.fairvalues["VALBZ"];
     // int valbzBuyBookvalue = state.book_vals["VALBZ"].first;
     // int valbzSellBookvalue = state.book_vals["VALBZ"].second;
-    // //int valeFairvalue = state.fairvalues["VALE"].second;
+    // //int valeFairvalue = state.fairvalues["VALE"];
     // // int valeBuyBookvalue = state.book_vals["VALE"].first;
     // // int valeSellBookvalue = state.book_vals["VALE"].second;
     // if ((valbzSellBookvalue - valbzBuyBookvalue) > 10) {
@@ -51,10 +51,10 @@ void buyValbzVales(Utils util, State state) {
 void buyXLF(Utils util, State state) {
 
   int bond = 1001;
-  int gs = state.fairvalues["GS"].second;
-  int ms = state.fairvalues["MS"].second;
-  int wfc = state.fairvalues["WFC"].second;
-  int xlf = state.book_vals["XLF"].second;
+  int gs = state.fairvalues["GS"];
+  int ms = state.fairvalues["MS"];
+  int wfc = state.fairvalues["WFC"];
+  int xlf = state.fairvalues["XLF"];
 
   cout << "fairvalues gs: " << gs <<  " ms: " << ms << " wfc: " << wfc << " xlf: " << xlf << endl;
 
@@ -63,7 +63,7 @@ void buyXLF(Utils util, State state) {
 
       if (xlf+105 > profit) {
           util.buy("XLF", xlf+1, 10);
-          cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"].second << endl;
+          cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"] << endl;
           util.convert_to_stocks("XLF", 10);
           util.sell("BOND", 1001, 3);
           util.sell("GS", gs-1, 2);

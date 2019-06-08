@@ -13,7 +13,9 @@
 #include <cstring>
 #include <unordered_map>
 #include <unordered_set>
+#include <queue>
 #include "Order.h"
+#include "Constants.h"
 using namespace std;
 
 /** Join a vector of strings together, with a separator in-between
@@ -78,13 +80,14 @@ public:
     unordered_map<int, Order> orders;
     unordered_map<string, pair<int, int>> book_vals;
     unordered_set<string> open;
-    unordered_map<string, pair<int,int>> fairvalues; // <stock, <count, price>>
+    unordered_map<string, double> fairvalues; // <stock, <count, price>>
     unordered_map<string, BookEntry> our_book;
+    unordered_map<string, queue<double>> trade_values;
 
     void get_positions_from_exchange(stringstream& resp);
     void init();
     void print_positions();
-    int fair_xlf();
+    double fair_xlf();
 };
 
 class Utils {

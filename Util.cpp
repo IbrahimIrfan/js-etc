@@ -157,26 +157,22 @@ void Utils::parse_message(string resp) {
 		state.book_vals[symbol] = make_pair(atoi(minBuyVal.c_str()), atoi(minSellVal.c_str()));
     }
     else if (type == "TRADE") {
-        // cout << "Server: " << resp << endl;
         string stock;
         int trade_price, qty;
         ss >> stock >> trade_price >> qty;
 
         if (stock != "BOND") {
-          int former_price = (state.fairvalues[stock]).second;
-          int n = (state.fairvalues[stock]).first;
-
-          if (n == 0) {
-            state.fairvalues[stock].second  = trade_price;
-            state.fairvalues[stock].first = 1;
-          }
-          else {
-            if (n > 50) {
-              n = 1;
+            queue<double>& stock_history = state.trade_values[stock];
+            int cursize = stock_history.size();
+            if (cursize == 0) {
+                state.fairvalues[stock] = trade_price;
+            } else if (cursize < RUNNING_AVG) {
+                state.fairvalues[stock] = (state.fairvalues[stock] * cursize + trade_price) / (cursize + 1);
+            } else {
+                state.fairvalues[stock] = (state.fairvalues[stock] * cursize - stock_history.front() + trade_price) / cursize;
+                stock_history.pop();
             }
-            state.fairvalues[stock].second = (n * former_price + trade_price) / (n + 1);
-            state.fairvalues[stock].first = n+1;
-          }
+            stock_history.push(trade_price);
         }
     }
     else if (type == "ACK") {
@@ -349,11 +345,11 @@ void State::get_positions_from_exchange(stringstream& ss) {
     }
 }
 
-int State::fair_xlf() {
-    return (fairvalues["BOND"].second * 3 +
-           fairvalues["GS"].second * 2 +
-           fairvalues["MS"].second * 3 +
-           fairvalues["WFC"].second * 2) / 10;
+double State::fair_xlf() {
+    return (fairvalues["BOND"] * 3 +
+           fairvalues["GS"] * 2 +
+           fairvalues["MS"] * 3 +
+           fairvalues["WFC"] * 2) / 10.0;
 }
 
 void State::print_positions() {
@@ -365,13 +361,13 @@ void State::print_positions() {
 void State::init() {
 	book_vals["BOND"] = make_pair(998, 1002);
 
-    fairvalues["BOND"] = make_pair(1, 1000);
-    fairvalues["VALBZ"] = make_pair(0, 0);
-    fairvalues["VALE"] = make_pair(0, 0);
-    fairvalues["GS"] = make_pair(0, 0);
-    fairvalues["MS"] = make_pair(0, 0);
-    fairvalues["WFC"] = make_pair(0, 0);
-    fairvalues["XLF"] = make_pair(0, 0);
+    fairvalues["BOND"] = 1000.0;
+    fairvalues["VALBZ"] = 0.0;
+    fairvalues["VALE"] = 0.0;
+    fairvalues["GS"] = 0.0;
+    fairvalues["MS"] = 0.0;
+    fairvalues["WFC"] = 0.0;
+    fairvalues["XLF"] = 0.0;
 
     maximums["BOND"] = 100;
     maximums["VALBZ"] = 10;
@@ -390,6 +386,20 @@ void State::init() {
     open.insert("XLF");
 
     our_book.emplace("BOND", BookEntry());
+    our_book.emplace("VALBZ", BookEntry());
+    our_book.emplace("VALE", BookEntry());
+    our_book.emplace("GS", BookEntry());
+    our_book.emplace("MS", BookEntry());
+    our_book.emplace("WFC", BookEntry());
+    our_book.emplace("XLF", BookEntry());
+
+    trade_values.emplace("BOND", queue<double>());
+    trade_values.emplace("VALBZ", queue<double>());
+    trade_values.emplace("VALE", queue<double>());
+    trade_values.emplace("GS", queue<double>());
+    trade_values.emplace("MS", queue<double>());
+    trade_values.emplace("WFC", queue<double>());
+    trade_values.emplace("XLF", queue<double>());
 }
 
 BookEntry::BookEntry() : total_buy{0}, total_sell{0} {}
