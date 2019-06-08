@@ -58,7 +58,7 @@ void buyXLF(Utils util, State state) {
   if ((state.fair_xlf() > xlf) && (gs > 0) && (ms > 0) && (wfc > 0)) {
       int profit = 3*bond + 2*gs + 3*ms + 2*wfc;
 
-      if (xlf+105 > profit) {
+      if (xlf+5 > profit) {
           util.buy("XLF", xlf+1, 10);
           cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"] << endl;
           util.convert_to_stocks("XLF", 10);
