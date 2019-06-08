@@ -35,24 +35,25 @@ void parse_loop(Utils *util) {
 
 void buyValbzVales(Utils util, State state) {
 
-    int valbzFairvalue = state.fairvalues["VALBZ"];
-    int valeFairvalue = state.fairvalues["VALE"];
-
-    if ((valbzFairvalue - valeFairvalue) > 15) {
-      util.buy("VALE", valbzFairvalue + 1, 2);
-      util.convert_to_stocks("VALBZ", 2);
-      util.sell("VALE", valbzFairvalue - 1, 2);
-    }
+    // int valbzFairvalue = state.fairvalues["VALBZ"].second;
+    // int valeFairvalue = state.fairvalues["VALE"].second;
+    //
+    // if ((valbzFairvalue - valeFairvalue) > 15) {
+    //   util.buy("VALE", valbzBuyBookvalue + 1, 2);
+    //   convert_to_stocks("VALBZ", 2)
+    //   util.sell("VALE", valbzSellBookvalue - 1, 2);
+    // }
 }
 
 void buyXLF(Utils util, State state) {
+    int bond = 1001;
     double gs = state.fairvalues["GS"];
     double ms = state.fairvalues["MS"];
     double wfc = state.fairvalues["WFC"];
     double xlf = state.fairvalues["XLF"];
 
     int margin = 15;
-    int buy_factor = 3;
+    int buy_factor = 1;
 
     if (gs <= 0 || ms <= 0 || wfc <= 0 || xlf <= 0) {
         return;
@@ -62,18 +63,19 @@ void buyXLF(Utils util, State state) {
     if (sum_stocks > xlf + margin) {
         util.buy("XLF", xlf, 10 * buy_factor);
         util.convert_to_stocks("XLF", 10 * buy_factor);
-        util.sell("GS", gs-1, 2 * buy_factor);
-        util.sell("MS", ms-1, 3 * buy_factor);
-        util.sell("WFC", wfc-1, 2 * buy_factor);
+        util.sell("BOND", 1000, 3 * buy_factor);
+        util.sell("GS", gs, 2 * buy_factor);
+        util.sell("MS", ms, 3 * buy_factor);
+        util.sell("WFC", wfc, 2 * buy_factor);
     } else if (xlf > sum_stocks + margin) {
+        util.buy("BOND", 1000, 3 * buy_factor);
         util.buy("GS", gs, 2 * buy_factor);
         util.buy("MS", ms, 3 * buy_factor);
         util.buy("WFC", wfc, 2 * buy_factor);
         util.convert_to_obj("XLF", 10 * buy_factor);
-        util.sell("XLF", xlf-1, 10 * buy_factor);
+        util.sell("XLF", xlf, 10 * buy_factor);
     }
 }
-
 
 void pennyAllDaStocks(Utils *util){
 	vector<string> stocks = {"GS", "MS", "WFC"};
@@ -82,7 +84,7 @@ void pennyAllDaStocks(Utils *util){
 		unordered_map<string, pair<int, int>> bv = util->state.book_vals;
 		if (bv.find(stocks[i]) != bv.end()) {
 			double fv = util->state.fairvalues[stocks[i]];
-			if (bv[stocks[i]].first + 3 > fv) {
+			if (bv[stocks[i]].first + 3 < fv) {
 				if (fv > 0) {
 					util->buy(stocks[i], bv[stocks[i]].first + 1, 1);
 					util->sell(stocks[i], bv[stocks[i]].second - 1, 1);
@@ -113,20 +115,7 @@ int main(int argc, char *argv[])
 
     thread read_from_server(parse_loop, &util);
 
-    int cancel_iters = 100;
-    int counter = 0;
-
 	while (true) {
-        if (counter++ % cancel_iters == 0) {
-            for (auto o : state.orders) {
-                util.cancel(o.first);
-            }
-            state.orders.clear();
-
-            for (auto o : state.our_book) {
-                state.our_book[o.first] = BookEntry();
-            }
-        }
         if (state.our_book["BOND"].buys[999] < 50) {
             util.buy("BOND", 999, 5);
         }
@@ -153,8 +142,7 @@ int main(int argc, char *argv[])
             util.sell("BOND", 1004, 5);
         }
 
-        buyXLF(util, state);
-      //  checkLimits(&util, state);
+        //buyXLF(util, state);
 		//pennyAllDaStocks(&util);
         usleep(1000 * 100);
 	}
