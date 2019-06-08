@@ -130,7 +130,7 @@ void Utils::parse_message(string resp) {
         //
     }
     else if (type == "TRADE") {
-      cout << "Server: " << resp << endl;
+    //  cout << "Server: " << resp << endl;
       string stock;
       int trade_price, qty;
       ss >> stock >> trade_price >> qty;
