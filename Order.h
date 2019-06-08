@@ -11,6 +11,7 @@ public:
     int price;
     int qty;
     string dir;
+    bool acked;
 
     Order();
     Order(int id, string sym, int price, int qty, string dir);
