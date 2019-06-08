@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
     vector<string> data;
     data.push_back(string("HELLO"));
     data.push_back(config.team_name);
-    data.push_back("\n");
 
     /*
       A common mistake people make is to conn.send_to_exchange() > 1
