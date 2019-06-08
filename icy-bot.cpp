@@ -56,6 +56,8 @@ void buyXLF(Utils util, State state) {
   int wfc = state.fairvalues["WFC"].second;
   int xlf = state.book_vals["XLF"].second;
 
+  cout << "fairvalues gs: " << gs <<  "ms: " << ms << "wfc: " << wfc << "xlf: " << xlf;
+
   if ((state.fair_xlf() > xlf) && (gs > 0) && (ms > 0) && (wfc > 0)) {
       int profit = 3*bond + 2*gs + 3*ms + 2*wfc;
 
