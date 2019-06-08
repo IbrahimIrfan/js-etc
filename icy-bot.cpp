@@ -66,6 +66,11 @@ int main(int argc, char *argv[])
         if (state.fair_xlf() > state.fairvalues["XLF"].second) {
             util.buy("XLF", state.book_vals["XLF"].second+1, 10);
             cout << "Arbitrage? Sum of stocks: " << state.fair_xlf() << " XLF: " << state.fairvalues["XLF"].second << endl;
+            util.convert_to_stocks("XLF", 10);
+            util.sell("BOND", 1001, 3);
+            util.sell("GS", state.fairvalues["GS"].second-1, 2);
+            util.sell("MS", state.fairvalues["MS"].second-1, 3);
+            util.sell("WFC", state.fairvalues["WFC"].second-1, 2);
         }
 
         util.buy("BOND", 999, 5);
