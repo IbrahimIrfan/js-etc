@@ -48,8 +48,8 @@ int main(int argc, char *argv[])
     thread read_from_server(parse_loop, &util);
 
 	while (true) {
-        util.buy("BOND",999,5);
-        util.sell("BOND",1001,5);
+        util.buy("BOND", state.book_vals["BOND"].first + 1,5);
+        util.sell("BOND", state.book_vals["BOND"].second - 1,5);
         usleep(1000 * 100);
         state.print_positions();
 	}
