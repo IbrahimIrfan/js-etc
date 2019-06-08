@@ -240,7 +240,11 @@ void State::get_positions_from_exchange(stringstream& ss) {
     cout << "Getting positions" << endl;
     string symbol;
     while (ss) {
-        getline(ss, symbol, ':');
+        string pair;
+        ss >> pair;
+        stringstream ss2(pair);
+        getline(ss2, symbol, ':');
+
         positions[symbol] = 0;
         ss >> positions[symbol];
         cout << "Current position for " << symbol << ": " << positions[symbol] << endl;
