@@ -51,7 +51,13 @@ void buyValbzVales(Utils util, State state) {
 int main(int argc, char *argv[])
 {
     // Be very careful with this boolean! It switches between test and prod
-    bool test_mode = false;
+    string test_var(getenv("TEST"));
+    bool test_mode = test_var == "true";
+
+    if (!test_mode) {
+        cout << "RUNNING IN PROD" << endl;
+    }
+
     Configuration config(test_mode);
     Connection conn(config);
     State state;
