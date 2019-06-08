@@ -79,6 +79,7 @@ int main(int argc, char *argv[])
     data_add.push_back(string("BUY"));
     data_add.push_back(string("999"));
     data_add.push_back(string("5"));
+    data_add.push_back('\n'));
     /*
       A common mistake people make is to conn.send_to_exchange() > 1
       time for every conn.read_from_exchange() response.
