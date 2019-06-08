@@ -40,8 +40,7 @@ int main(int argc, char *argv[])
     Configuration config(test_mode);
     Connection conn(config);
     State state;
-    state.init_maximums();
-    state.init_fairvalues(); 
+    state.init();
     Utils util(config, conn, state);
 
     util.hello();

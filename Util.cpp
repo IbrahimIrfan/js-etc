@@ -35,7 +35,7 @@ void Utils::buy(string sym, int price, int qty) {
 
 void Utils::sell(string sym, int price, int qty) {
     if (state.open.find(sym) == state.open.end()) {
-//        return;
+        return;
     }
     vector<string> order;
     order.push_back("ADD");
@@ -285,7 +285,7 @@ void State::print_positions() {
     }
 }
 
-void State::init_fairvalues() {
+void State::init() {
     fairvalues["BOND"] = 0;
     fairvalues["VALBZ"] = 0;
     fairvalues["VALE"] = 0;
@@ -293,9 +293,7 @@ void State::init_fairvalues() {
     fairvalues["MS"] = 0;
     fairvalues["WFC"] = 0;
     fairvalues["XLF"] = 0;
-}
 
-void State::init_maximums() {
     maximums["BOND"] = 100;
     maximums["VALBZ"] = 10;
     maximums["VALE"] = 10;
@@ -303,4 +301,12 @@ void State::init_maximums() {
     maximums["MS"] = 100;
     maximums["WFC"] = 100;
     maximums["XLF"] = 100;
+
+    open.insert("BOND");
+    open.insert("VALBZ");
+    open.insert("VALE");
+    open.insert("GS");
+    open.insert("MS");
+    open.insert("WFC");
+    open.insert("XLF");
 }

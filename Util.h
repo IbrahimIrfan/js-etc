@@ -68,9 +68,8 @@ public:
     unordered_map<string, int> fairvalues;
 
     void get_positions_from_exchange(stringstream& resp);
-    void init_maximums();
+    void init();
     void print_positions();
-    void init_fairvalues();
 };
 
 class Utils {
