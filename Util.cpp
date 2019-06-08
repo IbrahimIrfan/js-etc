@@ -275,6 +275,13 @@ void State::get_positions_from_exchange(stringstream& ss) {
     }
 }
 
+
+void State::print_positions() {
+    for (auto position : positions) {
+        cout << position.first << ": " << position.second << endl;
+    }
+}
+
 void State::init_fairvalues() {
     fairvalues["BOND"] = 0;
     fairvalues["VALBZ"] = 0;
