@@ -12,7 +12,6 @@ void Utils::buy(string sym, int price, int qty) {
     order.push_back("BUY");
     order.push_back(to_string(price));
     order.push_back(to_string(qty));
-    order.push_back("\n");
     string order_str = join(" ", order);
     cout << "Sending buy order: " << order_str << endl;
     conn.send_to_exchange(order_str);
@@ -86,6 +85,7 @@ Connection::Connection(Configuration configuration){
 /** Send a string to the server */
 void Connection::send_to_exchange(string input) {
     string line(input);
+	cout << line;
     /* All messages must always be uppercase */
     transform(line.begin(), line.end(), line.begin(), ::toupper);
     int res = fprintf(this->out, "%s\n", line.c_str());
