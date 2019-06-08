@@ -128,40 +128,57 @@ void Utils::parse_message(string resp) {
     }
     else if (type == "BOOK") {
 		// Parse the line
-    	vector<string> words;
-		string tmp;
-    	while (ss >> tmp) {
-        	words.push_back(tmp);
+		/*
+		string symbol;
+		ss >> symbol;
+
+		string curWord;
+		string lastWord = "";
+		string minBuyVal;
+		string minSellVal;
+
+    	while (ss >> curWord) {
+			if (lastWord == "BUY") {
+				minBuyVal = curWord;
+			} else if (lastWord == "SELL") {
+				minSellVal = curWord;
+			}
+			lastWord = curWord;
     	}
-		string sym = words[0];
 
-		string maxBuyVal = words[2];
-		maxBuyVal = maxBuyVal.substr(0, maxBuyVal.find(":"));
-
-		int curWord = 2;
-		while (words[curWord] != "SELL") {
-			curWord++;
-		}
-		string minSellVal = words[curWord + 1];
+		minBuyVal = minBuyVal.substr(0, minBuyVal.find(":"));
 		minSellVal = minSellVal.substr(0, minSellVal.find(":"));
-
-		state.book_vals[sym] = make_pair(atoi(maxBuyVal.c_str()), atoi(minSellVal.c_str()));
+		state.book_vals[symbol] = make_pair(atoi(minBuyVal.c_str()), atoi(minSellVal.c_str()));
+		*/
     }
     else if (type == "TRADE") {
         // cout << "Server: " << resp << endl;
         string stock;
         int trade_price, qty;
         ss >> stock >> trade_price >> qty;
-        int former_price = state.fairvalues[stock].second;
-        int n = state.fairvalues[stock].first;
-        state.fairvalues[stock].second = (n * former_price + trade_price) / (n + 1);
-        state.fairvalues[stock].first = n+1;
+
+        if (stock != "BOND") {
+          int former_price = (state.fairvalues[stock]).second;
+          int n = (state.fairvalues[stock]).first;
+          if (n > 100) {
+            n = 1;
+          }
+          state.fairvalues[stock].second = (n * former_price + trade_price) / (n + 1);
+          state.fairvalues[stock].first = n+1;
+        }
     }
     else if (type == "ACK") {
         cout << "Server: " << resp << endl;
         int order_id;
         ss >> order_id;
         state.orders[order_id].acked = true;
+        Order o = state.orders[order_id];
+        unordered_map<int, int>& price_count = state.our_book[o.symbol];
+        if (price_count.find(o.price) != price_count.end()) {
+            price_count[o.price] += o.qty;
+        } else {
+            price_count[o.price] = o.qty;
+        }
     }
     else if (type == "REJECT") {
         cout << "Server: " << resp << endl;
@@ -181,6 +198,13 @@ void Utils::parse_message(string resp) {
         } else {
             state.positions["USD"] += price * qty;
             state.positions[sym] -= qty;
+        }
+
+        Order o = state.orders[order_id];
+        unordered_map<int, int>& price_count = state.our_book[o.symbol];
+        price_count[o.price] -= qty;
+        if (price_count[o.price] == 0) {
+            price_count.erase(o.price);
         }
     }
     else if (type == "OUT") {
@@ -299,6 +323,12 @@ void State::get_positions_from_exchange(stringstream& ss) {
     }
 }
 
+int State::fair_xlf() {
+    return (fairvalues["BOND"].second * 3 +
+           fairvalues["GS"].second * 2 +
+           fairvalues["MS"].second * 3 +
+           fairvalues["WFC"].second * 2) / 10;
+}
 
 void State::print_positions() {
     for (auto position : positions) {
