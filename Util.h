@@ -12,6 +12,8 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <unordered_map>
+#include <unordered_set>
+#include "Order.h"
 using namespace std;
 
 /** Join a vector of strings together, with a separator in-between
@@ -61,6 +63,8 @@ class State {
 public:
     unordered_map<string, int> positions;
     unordered_map<string, int> maximums;
+    unordered_map<int, Order> orders;
+    unordered_set<string> open;
 
     void get_positions_from_exchange(stringstream& resp);
     void init_maximums();

@@ -11,10 +11,12 @@ void Utils::hello() {
     string mess_str = join(" ", mess);
     cout << "Sending hello message: " << mess_str << endl;
     conn.send_to_exchange(mess_str);
-    read_and_parse();
 }
 
 void Utils::buy(string sym, int price, int qty) {
+    if (state.open.find(sym) == state.open.end()) {
+        return;
+    }
     vector<string> order;
     order.push_back("ADD");
     order.push_back(to_string(order_id++));
@@ -24,11 +26,17 @@ void Utils::buy(string sym, int price, int qty) {
     order.push_back(to_string(qty));
     string order_str = join(" ", order);
     cout << "Sending buy order: " << order_str << endl;
+
+    Order order_obj(order_id - 1, sym, price, qty, "BUY");
+    state.orders[order_id - 1] = order_obj;
+
     conn.send_to_exchange(order_str);
-    read_and_parse();
 }
 
 void Utils::sell(string sym, int price, int qty) {
+    if (state.open.find(sym) == state.open.end()) {
+//        return;
+    }
     vector<string> order;
     order.push_back("ADD");
     order.push_back(to_string(order_id++));
@@ -38,10 +46,17 @@ void Utils::sell(string sym, int price, int qty) {
     order.push_back(to_string(qty));
     string order_str = join(" ", order);
     cout << "Sending sell order: " << order_str << endl;
+
+    Order order_obj(order_id - 1, sym, price, qty, "BUY");
+    state.orders[order_id - 1] = order_obj;
+
     conn.send_to_exchange(order_str);
 }
 
 void Utils::convert(string sym, string dir, int qty) {
+    if (state.open.find(sym) == state.open.end()) {
+//        return;
+    }
     vector<string> order;
     order.push_back("CONVERT");
     order.push_back(to_string(order_id++));
@@ -68,12 +83,24 @@ void Utils::parse_message(string resp) {
         state.get_positions_from_exchange(ss);
     }
     else if (type == "OPEN") {
+        string sym;
+        while (ss) {
+            getline(ss, sym, ' ');
+            state.open.insert(sym);
+        }
     }
     else if (type == "CLOSE") {
+        string sym;
+        while (ss) {
+            getline(ss, sym, ' ');
+            state.open.erase(sym);
+        }
     }
     else if (type == "ERROR") {
+        // Nothing to do
     }
     else if (type == "BOOK") {
+        // 
     }
     else if (type == "TRADE") {
     }

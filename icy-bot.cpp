@@ -18,10 +18,20 @@
 #include <arpa/inet.h>
 #include <cstring>
 #include <unordered_map>
-#include "Util.h"
 #include <unistd.h>
+#include "Util.h"
+#include "Order.h"
+#include <thread>
 
 using namespace std;
+
+bool running = true;
+
+void parse_loop(Utils *util) {
+    while (running) {
+        util->read_and_parse();
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -34,8 +44,10 @@ int main(int argc, char *argv[])
     Utils util(config, conn, state);
 
     util.hello();
+
+    thread read_from_server(parse_loop, &util);
+
 	while (true) {
-		cout << conn.read_from_exchange() << endl;
         util.buy("BOND",997,10);
         util.sell("BOND",1003,10);
         usleep(1000 * 100);
