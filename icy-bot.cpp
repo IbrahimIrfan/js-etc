@@ -46,14 +46,13 @@ void buyValbzVales(Utils util, State state) {
 }
 
 void buyXLF(Utils util, State state) {
-    int bond = 1001;
     double gs = state.fairvalues["GS"];
     double ms = state.fairvalues["MS"];
     double wfc = state.fairvalues["WFC"];
     double xlf = state.fairvalues["XLF"];
 
     int margin = 15;
-    int buy_factor = 1;
+    int buy_factor = 3;
 
     if (gs <= 0 || ms <= 0 || wfc <= 0 || xlf <= 0) {
         return;
@@ -63,12 +62,10 @@ void buyXLF(Utils util, State state) {
     if (sum_stocks > xlf + margin) {
         util.buy("XLF", xlf, 10 * buy_factor);
         util.convert_to_stocks("XLF", 10 * buy_factor);
-        util.sell("BOND", 1000, 3 * buy_factor);
         util.sell("GS", gs, 2 * buy_factor);
         util.sell("MS", ms, 3 * buy_factor);
         util.sell("WFC", wfc, 2 * buy_factor);
     } else if (xlf > sum_stocks + margin) {
-        util.buy("BOND", 1000, 3 * buy_factor);
         util.buy("GS", gs, 2 * buy_factor);
         util.buy("MS", ms, 3 * buy_factor);
         util.buy("WFC", wfc, 2 * buy_factor);
