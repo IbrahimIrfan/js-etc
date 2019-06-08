@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
     vector<string> data;
     data.push_back(string("HELLO"));
     data.push_back(config.team_name);
+    data.push_back('\n'));
 
     vector<string> data_add;
     data_add.push_back(string("ADD"));
