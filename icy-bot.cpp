@@ -139,16 +139,16 @@ int main(int argc, char *argv[])
             util.sell("BOND", 1004, 5);
         }
 
-        util.buy("VALBZ", state.fairvalues["VALBZ"] - 10, 2);
-        util.sell("VALBZ", state.fairvalues["VALBZ"] + 10, 2);
-        util.buy("VALE", state.fairvalues["VALE"] - 10, 2);
-        util.sell("VALE", state.fairvalues["VALE"] + 10, 2);
-        util.buy("MS", state.fairvalues["MS"] - 10, 2);
-        util.sell("MS", state.fairvalues["MS"] + 10, 2);
-        util.buy("GS", state.fairvalues["GS"] - 10, 2);
-        util.sell("GS", state.fairvalues["GS"] + 10, 2);
-        util.buy("WFC", state.fairvalues["WFC"] - 10, 2);
-        util.sell("WFC", state.fairvalues["WFC"] + 10, 2);
+        util.buy("VALBZ", state.fairvalues["VALBZ"] - 1, 2);
+        util.sell("VALBZ", state.fairvalues["VALBZ"] + 1, 2);
+        util.buy("VALE", state.fairvalues["VALE"] - 1, 2);
+        util.sell("VALE", state.fairvalues["VALE"] + 1, 2);
+        util.buy("MS", state.fairvalues["MS"] - 1, 2);
+        util.sell("MS", state.fairvalues["MS"] + 1, 2);
+        util.buy("GS", state.fairvalues["GS"] - 1, 2);
+        util.sell("GS", state.fairvalues["GS"] + 1, 2);
+        util.buy("WFC", state.fairvalues["WFC"] - 1, 2);
+        util.sell("WFC", state.fairvalues["WFC"] + 1, 2);
 
         buyXLF(util, state);
 		//pennyAllDaStocks(&util);
