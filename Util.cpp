@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Utils::Utils(Connection& conn) : order_id{1}, conn{conn} {}
+Utils::Utils(Connection& conn, State& state) : order_id{0}, conn{conn}, state{state} {}
 
 void Utils::buy(string sym, int price, int qty) {
     vector<string> order;
@@ -12,7 +12,6 @@ void Utils::buy(string sym, int price, int qty) {
     order.push_back("BUY");
     order.push_back(to_string(price));
     order.push_back(to_string(qty));
-    order.push_back("\n");
     string order_str = join(" ", order);
     cout << "Sending buy order: " << order_str << endl;
     conn.send_to_exchange(order_str);
@@ -29,6 +28,52 @@ void Utils::sell(string sym, int price, int qty) {
     string order_str = join(" ", order);
     cout << "Sending buy order: " << order_str << endl;
     conn.send_to_exchange(order_str);
+}
+
+void Utils::convert(string sym, string dir, int qty) {
+    vector<string> order;
+    order.push_back("CONVERT");
+    order.push_back(to_string(order_id++));
+    order.push_back(sym);
+    order.push_back(dir);
+    order.push_back(to_string(qty));
+    string order_str = join(" ", order);
+    cout << "Sending convert order: " << order_str << endl;
+    conn.send_to_exchange(order_str);
+}
+
+void Utils::read_and_parse() {
+    parse_message(conn.read_from_exchange());
+}
+
+void Utils::parse_message(string resp) {
+    cout << "Server: " << resp << endl;
+    stringstream ss(resp);
+
+    string type;
+    getline(ss, type, ' ');
+
+    if (type == "HELLO") {
+        state.get_positions_from_exchange(ss);
+    }
+    else if (type == "OPEN") {
+    }
+    else if (type == "CLOSE") {
+    }
+    else if (type == "ERROR") {
+    }
+    else if (type == "BOOK") {
+    }
+    else if (type == "TRADE") {
+    }
+    else if (type == "ACK") {
+    }
+    else if (type == "REJECT") {
+    }
+    else if (type == "FILL") {
+    }
+    else if (type == "OUT") {
+    }
 }
 
 /** Join a vector of strings together, with a separator in-between
@@ -111,8 +156,6 @@ string Connection::read_from_exchange() {
     return result;
 }
 
-
-
 /* replace REPLACEME with your team name! */
 Configuration::Configuration(bool test_mode) : team_name("ICY"){
     exchange_port = 20000; /* Default text based port */
@@ -122,4 +165,26 @@ Configuration::Configuration(bool test_mode) : team_name("ICY"){
     } else {
       exchange_hostname = "production";
     }
+}
+
+void State::get_positions_from_exchange(stringstream& ss) {
+    cout << "Getting positions" << endl;
+    string symbol;
+    while (ss) {
+        getline(ss, symbol, ':');
+        positions[symbol] = 0;
+        ss >> positions[symbol];
+        cout << "Current position for " << symbol << ": " << positions[symbol] << endl;
+    }
+}
+
+
+void State::init_maximums() {
+    maximums["BOND"] = 100;
+    maximums["VALBZ"] = 10;
+    maximums["VALE"] = 10;
+    maximums["GS"] = 100;
+    maximums["MS"] = 100;
+    maximums["WFC"] = 100;
+    maximums["XLF"] = 100;
 }

@@ -11,6 +11,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <cstring>
+#include <unordered_map>
 using namespace std;
 
 /** Join a vector of strings together, with a separator in-between
@@ -55,14 +56,29 @@ public:
   string read_from_exchange();
 };
 
+
+class State {
+public:
+    unordered_map<string, int> positions;
+    unordered_map<string, int> maximums;
+
+    void get_positions_from_exchange(stringstream& resp);
+    void init_maximums();
+};
+
 class Utils {
 public:
     int order_id;
     Connection& conn;
-    Utils(Connection& conn);
+    State& state;
+    Utils(Connection& conn, State& state);
 
     void buy(string sym, int price, int qty);
     void sell(string sym, int price, int qty);
+
+    void convert(string sym, string dir, int qty);
+    void parse_message(string message);
+    void read_and_parse();
 };
 
 #endif

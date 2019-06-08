@@ -22,51 +22,15 @@
 
 using namespace std;
 
-unordered_map<string, int> positions;
-unordered_map<string, int> maximums;
-string resp_order[] = {
-    "BOND",
-    "GS",
-    "MS",
-    "USD",
-    "VALBZ",
-    "VALE",
-    "WFC",
-    "XLF"
-};
-
-void get_positions_from_exchange(string resp) {
-    cout << "Getting positions" << endl;
-    stringstream ss(resp);
-    string trash;
-
-    for (string s : resp_order) {
-        positions[s] = 0;
-
-        getline(ss, trash, ':');
-        ss >> positions[s];
-        cout << s << ": " << positions[s] << endl;
-    }
-}
-
-void init() {
-    maximums["BOND"] = 100;
-    maximums["VALBZ"] = 10;
-    maximums["VALE"] = 10;
-    maximums["GS"] = 100;
-    maximums["MS"] = 100;
-    maximums["WFC"] = 100;
-    maximums["XLF"] = 100;
-}
-
 int main(int argc, char *argv[])
 {
     // Be very careful with this boolean! It switches between test and prod
     bool test_mode = true;
     Configuration config(test_mode);
     Connection conn(config);
-
-    init();
+    State state;
+    state.init_maximums();
+    Utils util(conn, state);
 
     vector<string> data;
     data.push_back(string("HELLO"));
@@ -79,15 +43,8 @@ int main(int argc, char *argv[])
       exponential explosion in pending messages. Please, don't do that!
     */
     conn.send_to_exchange(join(" ", data));
-    string resp = conn.read_from_exchange();
-    get_positions_from_exchange(resp);
 
-    Utils* util = new Utils(conn);
-    util->buy("BOND",999,1);
-	while (true) {
-    	string resp_add = conn.read_from_exchange();
-    	cout << resp_add << endl;
-	}
+    util.buy("BOND",999,1);
 
     return 0;
 }
