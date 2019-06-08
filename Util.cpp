@@ -130,11 +130,11 @@ void Utils::parse_message(string resp) {
         //
     }
     else if (type == "TRADE") {
-    //  cout << "Server: " << resp << endl;
-      string stock;
-      int trade_price, qty;
-      ss >> stock >> trade_price >> qty;
-      state.fairvalues[stock] = trade_price;
+        // cout << "Server: " << resp << endl;
+        string stock;
+        int trade_price, qty;
+        ss >> stock >> trade_price >> qty;
+        state.fairvalues[stock] = trade_price;
     }
     else if (type == "ACK") {
         cout << "Server: " << resp << endl;
@@ -266,6 +266,9 @@ void State::get_positions_from_exchange(stringstream& ss) {
     while (ss) {
         string pair;
         ss >> pair;
+        if (pair == "") {
+            break;
+        }
         stringstream ss2(pair);
         getline(ss2, symbol, ':');
 
