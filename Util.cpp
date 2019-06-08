@@ -128,7 +128,6 @@ void Utils::parse_message(string resp) {
     }
     else if (type == "BOOK") {
 		// Parse the line
-		/*
 		string symbol;
 		ss >> symbol;
 
@@ -149,7 +148,6 @@ void Utils::parse_message(string resp) {
 		minBuyVal = minBuyVal.substr(0, minBuyVal.find(":"));
 		minSellVal = minSellVal.substr(0, minSellVal.find(":"));
 		state.book_vals[symbol] = make_pair(atoi(minBuyVal.c_str()), atoi(minSellVal.c_str()));
-		*/
     }
     else if (type == "TRADE") {
         // cout << "Server: " << resp << endl;
