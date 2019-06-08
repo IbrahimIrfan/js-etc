@@ -317,10 +317,10 @@ void State::get_positions_from_exchange(stringstream& ss) {
 }
 
 int State::fair_xlf() {
-    return fairvalues["BOND"] * 3 + 
+    return (fairvalues["BOND"] * 3 + 
            fairvalues["GS"] * 2 + 
            fairvalues["MS"] * 3 + 
-           fairvalues["WFC"] * 2;
+           fairvalues["WFC"] * 2) / 10;
 }
 
 void State::print_positions() {
