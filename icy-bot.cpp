@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
         util.sell("VALBZ", state.fairvalues["VALBZ"] + 5, 2);
         util.buy("VALE", state.fairvalues["VALE"] - 5, 2);
         util.sell("VALE", state.fairvalues["VALE"] + 5, 2);
-        util.buy("MS", state.fairvalues["MS"] - 5 2);
+        util.buy("MS", state.fairvalues["MS"] - 5, 2);
         util.sell("MS", state.fairvalues["MS"] + 5, 2);
         util.buy("GS", state.fairvalues["GS"] - 5, 2);
         util.sell("GS", state.fairvalues["GS"] + 5, 2);
