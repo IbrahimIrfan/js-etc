@@ -52,7 +52,7 @@ void buyXLF(Utils util, State state) {
     double wfc = state.fairvalues["WFC"];
     double xlf = state.fairvalues["XLF"];
 
-    int margin = 15;
+    int margin = 10;
     int buy_factor = 3;
 
     if (gs <= 0 || ms <= 0 || wfc <= 0 || xlf <= 0) {
@@ -91,14 +91,6 @@ void pennyAllDaStocks(Utils *util){
 		}
 
 	}
-}
-
-void sellIfTooHigh(Utils *util, string symbol, int qnt) {
-	util->sell(symbol, util->state.fairvalues[symbol], qnt);
-}
-
-void buyIfTooLow(Utils *util, string symbol, int qnt) {
-	util->buy(symbol, util->state.fairvalues[symbol], qnt);
 }
 
 int main(int argc, char *argv[])
