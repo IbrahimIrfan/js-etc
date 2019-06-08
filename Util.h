@@ -84,7 +84,9 @@ public:
     void hello();
     void buy(string sym, int price, int qty);
     void sell(string sym, int price, int qty);
-    void convert(string sym, string dir, int qty);
+    void convert_to_stocks(string sym, int qty);
+    void convert_to_obj(string sym, int qty);
+    void cancel(int order_id);
 
     void parse_message(string message);
     void read_and_parse();

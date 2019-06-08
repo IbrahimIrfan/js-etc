@@ -53,18 +53,42 @@ void Utils::sell(string sym, int price, int qty) {
     conn.send_to_exchange(order_str);
 }
 
-void Utils::convert(string sym, string dir, int qty) {
+void Utils::convert_to_stocks(string sym, int qty) {
     if (state.open.find(sym) == state.open.end()) {
-//        return;
+        return;
     }
     vector<string> order;
     order.push_back("CONVERT");
     order.push_back(to_string(order_id++));
     order.push_back(sym);
-    order.push_back(dir);
+    order.push_back("BUY");
     order.push_back(to_string(qty));
     string order_str = join(" ", order);
     cout << "Sending convert order: " << order_str << endl;
+    conn.send_to_exchange(order_str);
+}
+
+void Utils::convert_to_obj(string sym, int qty) {
+    if (state.open.find(sym) == state.open.end()) {
+        return;
+    }
+    vector<string> order;
+    order.push_back("CONVERT");
+    order.push_back(to_string(order_id++));
+    order.push_back(sym);
+    order.push_back("SELL");
+    order.push_back(to_string(qty));
+    string order_str = join(" ", order);
+    cout << "Sending convert order: " << order_str << endl;
+    conn.send_to_exchange(order_str);
+}
+
+void Utils::cancel(int order_id) {
+    vector<string> order;
+    order.push_back("CANCEL");
+    order.push_back(to_string(order_id));
+    string order_str = join(" ", order);
+    cout << "Cancelling order: " << order_str << endl;
     conn.send_to_exchange(order_str);
 }
 
