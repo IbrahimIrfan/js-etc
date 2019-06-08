@@ -30,7 +30,7 @@ private:
     1 = slower
     2 = empty
   */
-  static int const test_exchange_index = 2;
+  static int const test_exchange_index = 0;
 public:
   string team_name;
   string exchange_hostname;
