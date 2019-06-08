@@ -304,6 +304,8 @@ void State::print_positions() {
 }
 
 void State::init() {
+	book_vals["BOND"] = make_pair(998, 1002);
+
     fairvalues["BOND"] = 0;
     fairvalues["VALBZ"] = 0;
     fairvalues["VALE"] = 0;
