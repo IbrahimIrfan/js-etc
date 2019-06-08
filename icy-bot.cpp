@@ -108,25 +108,25 @@ void checkLimits(Utils *util, State state) {
   BookEntry ms = state.our_book["MS"];
   BookEntry wfc = state.our_book["WFC"];
 
-  if (gs.total_buy > 95) {
+  if (gs.total_buy > 80) {
     sellIfTooHigh(util, "GS", 1);
   }
-  else if (gs.total_sell < -95) {
+  else if (gs.total_sell < -80) {
     buyIfTooLow(util, "GS", 1);
   }
 
 
-  if (ms.total_buy > 95) {
+  if (ms.total_buy > 80) {
     sellIfTooHigh(util, "MS", 1);
   }
-  else if (ms.total_sell < -95) {
+  else if (ms.total_sell < -80) {
     buyIfTooLow(util, "MS", 1);
   }
 
-  if (wfc.total_buy > 95) {
+  if (wfc.total_buy > 80) {
     sellIfTooHigh(util, "WFC", 1);
   }
-  else if (wfc.total_sell < -95) {
+  else if (wfc.total_sell < -80) {
     buyIfTooLow(util, "WFC", 1);
   }
 
