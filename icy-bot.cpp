@@ -11,6 +11,10 @@
 #include <vector>
 #include <sstream>
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <cstring>
 
 /* The Configuration class is used to tell the bot how to connect
    to the appropriate exchange. The `test_exchange_index` variable
