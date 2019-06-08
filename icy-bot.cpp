@@ -33,9 +33,10 @@ int main(int argc, char *argv[])
     Utils util(config, conn, state);
 
     util.hello();
-    util.buy("BOND",999,1);
 	while (true) {
 		cout << conn.read_from_exchange() << endl;
+        util.buy("BOND",999,1);
+        util.sell("BOND",1001,1);
 	}
 
     return 0;
