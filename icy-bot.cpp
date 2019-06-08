@@ -4,6 +4,8 @@
    3) Run in loop: while true; do ./bot.exe; sleep 1; done
 */
 
+#include <bits/stdc++.h>
+
 #include <string>
 #include <iostream>
 #include <stdexcept>
@@ -16,6 +18,8 @@
 #include <arpa/inet.h>
 #include <cstring>
 
+using namespace std;
+
 /* The Configuration class is used to tell the bot how to connect
    to the appropriate exchange. The `test_exchange_index` variable
    only changes the Configuration when `test_mode` is set to `true`.
@@ -27,10 +31,10 @@ private:
     1 = slower
     2 = empty
   */
-  static int const test_exchange_index = 2;
+  static int const test_exchange_index = 0;
 public:
-  std::string team_name;
-  std::string exchange_hostname;
+  string team_name;
+  string exchange_hostname;
   int exchange_port;
   /* replace REPLACEME with your team name! */
   Configuration(bool test_mode) : team_name("ICY"){
@@ -55,15 +59,15 @@ public:
   Connection(Configuration configuration){
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
-      throw std::runtime_error("Could not create socket");
+      throw runtime_error("Could not create socket");
     }
-    std::string hostname = configuration.exchange_hostname;
+    string hostname = configuration.exchange_hostname;
     hostent *record = gethostbyname(hostname.c_str());
     if(!record) {
-      throw std::invalid_argument("Could not resolve host '" + hostname + "'");
+      throw invalid_argument("Could not resolve host '" + hostname + "'");
     }
     in_addr *address = reinterpret_cast<in_addr *>(record->h_addr);
-    std::string ip_address = inet_ntoa(*address);
+    string ip_address = inet_ntoa(*address);
     struct sockaddr_in server;
     server.sin_addr.s_addr = inet_addr(ip_address.c_str());
     server.sin_family = AF_INET;
@@ -71,15 +75,15 @@ public:
 
     int res = connect(sock, ((struct sockaddr *) &server), sizeof(server));
     if (res < 0) {
-      throw std::runtime_error("could not connect");
+      throw runtime_error("could not connect");
     }
     FILE *exchange_in = fdopen(sock, "r");
     if (exchange_in == NULL){
-      throw std::runtime_error("could not open socket for writing");
+      throw runtime_error("could not open socket for writing");
     }
     FILE *exchange_out = fdopen(sock, "w");
     if (exchange_out == NULL){
-      throw std::runtime_error("could not open socket for reading");
+      throw runtime_error("could not open socket for reading");
     }
 
     setlinebuf(exchange_in);
@@ -90,29 +94,29 @@ public:
   }
 
   /** Send a string to the server */
-  void send_to_exchange(std::string input) {
-    std::string line(input);
+  void send_to_exchange(string input) {
+    string line(input);
     /* All messages must always be uppercase */
-    std::transform(line.begin(), line.end(), line.begin(), ::toupper);
+    transform(line.begin(), line.end(), line.begin(), ::toupper);
     int res = fprintf(this->out, "%s\n", line.c_str());
     if (res < 0) {
-      throw std::runtime_error("error sending to exchange");
+      throw runtime_error("error sending to exchange");
     }
   }
 
   /** Read a line from the server, dropping the newline at the end */
-  std::string read_from_exchange()
+  string read_from_exchange()
   {
     /* We assume that no message from the exchange is longer
        than 10,000 chars */
     const size_t len = 10000;
     char buf[len];
     if(!fgets(buf, len, this->in)){
-      throw std::runtime_error("reading line from socket");
+      throw runtime_error("reading line from socket");
     }
 
     int read_length = strlen(buf);
-    std::string result(buf);
+    string result(buf);
     /* Chop off the newline */
     result.resize(result.length() - 1);
     return result;
@@ -121,8 +125,8 @@ public:
 
 /** Join a vector of strings together, with a separator in-between
     each string. This is useful for space-separating things */
-std::string join(std::string sep, std::vector<std::string> strs) {
-  std::ostringstream stream;
+string join(string sep, vector<string> strs) {
+  ostringstream stream;
   const int size = strs.size();
   for(int i = 0; i < size; ++i) {
     stream << strs[i];
@@ -133,6 +137,42 @@ std::string join(std::string sep, std::vector<std::string> strs) {
   return stream.str();
 }
 
+unordered_map<string, int> positions;
+unordered_map<string, int> maximums;
+string resp_order[] = {
+    "BOND",
+    "GS",
+    "MS",
+    "USD",
+    "VALBZ",
+    "VALE",
+    "WFC",
+    "XLF"
+};
+
+void get_positions_from_exchange(string resp) {
+    cout << "Getting positions" << endl;
+    stringstream ss(resp);
+    string trash;
+
+    for (string s : resp_order) {
+        positions[s] = 0;
+
+        getline(ss, trash, ':');
+        ss >> positions[s];
+        cout << s << ": " << positions[s] << endl;
+    }
+}
+
+void init() {
+    maximums["BOND"] = 100;
+    maximums["VALBZ"] = 10;
+    maximums["VALE"] = 10;
+    maximums["GS"] = 100;
+    maximums["MS"] = 100;
+    maximums["WFC"] = 100;
+    maximums["XLF"] = 100;
+}
 
 int main(int argc, char *argv[])
 {
@@ -141,8 +181,10 @@ int main(int argc, char *argv[])
     Configuration config(test_mode);
     Connection conn(config);
 
-    std::vector<std::string> data;
-    data.push_back(std::string("HELLO"));
+    init();
+
+    vector<string> data;
+    data.push_back(string("HELLO"));
     data.push_back(config.team_name);
     /*
       A common mistake people make is to conn.send_to_exchange() > 1
@@ -151,7 +193,9 @@ int main(int argc, char *argv[])
       exponential explosion in pending messages. Please, don't do that!
     */
     conn.send_to_exchange(join(" ", data));
-    std::string line = conn.read_from_exchange();
-    std::cout << "The exchange replied: " << line << std::endl;
+    string resp = conn.read_from_exchange();
+
+    get_positions_from_exchange(resp);
+
     return 0;
 }
