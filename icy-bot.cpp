@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
     Utils* util = new Utils(conn);
     util->buy("BOND",999,5);
     string resp_add = conn.read_from_exchange();
-    get_positions_from_exchange(resp_add);
+    cout << resp_add << endl;
 
     return 0;
 }
