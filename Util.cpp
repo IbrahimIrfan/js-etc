@@ -2,7 +2,17 @@
 
 using namespace std;
 
-Utils::Utils(Connection& conn, State& state) : order_id{0}, conn{conn}, state{state} {}
+Utils::Utils(Configuration& config, Connection& conn, State& state) : config{config}, order_id{0}, conn{conn}, state{state} {}
+
+void Utils::hello() {
+    vector<string> mess;
+    mess.push_back("HELLO");
+    mess.push_back(config.team_name);
+    string mess_str = join(" ", mess);
+    cout << "Sending hello message: " << mess_str << endl;
+    conn.send_to_ecxchange(mess_str);
+    read_and_parse();
+}
 
 void Utils::buy(string sym, int price, int qty) {
     vector<string> order;
@@ -15,6 +25,7 @@ void Utils::buy(string sym, int price, int qty) {
     string order_str = join(" ", order);
     cout << "Sending buy order: " << order_str << endl;
     conn.send_to_exchange(order_str);
+    read_and_parse();
 }
 
 void Utils::sell(string sym, int price, int qty) {

@@ -69,14 +69,16 @@ public:
 class Utils {
 public:
     int order_id;
+    Configuration& config;
     Connection& conn;
     State& state;
-    Utils(Connection& conn, State& state);
+    Utils(Configuration& config, Connection& conn, State& state);
 
+    void hello();
     void buy(string sym, int price, int qty);
     void sell(string sym, int price, int qty);
-
     void convert(string sym, string dir, int qty);
+
     void parse_message(string message);
     void read_and_parse();
 };
