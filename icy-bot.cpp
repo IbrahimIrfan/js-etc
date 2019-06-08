@@ -116,8 +116,8 @@ int main(int argc, char *argv[])
 	while (true) {
         // ETF arbitrage detection
 
-        // util.buy("BOND", 999, 5);
-        // util.sell("BOND", 1001, 5);
+        util.buy("BOND", 999, 5);
+        util.sell("BOND", 1001, 5);
         buyXLF(util, state);
         usleep(1000 * 100);
 		//pennyAllDaStocks(&util);
