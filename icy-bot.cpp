@@ -79,11 +79,17 @@ void pennyAllDaStocks(Utils *util){
 	vector<string> stocks = {"GS", "MS", "WFC"};
 
 	for (int i = 0; i < stocks.size(); i++) {
-		double fv = util->state.fairvalues[stocks[i]];
-		if (fv > 0) {
-			util->buy(stocks[i], fv - 8, 1);
-			util->sell(stocks[i], fv + 8, 1);
+		unordered_map<string, pair<int, int>> bv = util->state.book_vals;
+		if (bv.find(stocks[i]) != bv.end()) {
+			double fv = util->state.fairvalues[stocks[i]];
+			if (bv[stocks[i]].first + 5 < fv) {
+				if (fv > 0) {
+					util->buy(stocks[i], bv[stocks[i]].first + 1, 1);
+					util->sell(stocks[i], bv[stocks[i]].second - 1, 1);
+				}
+			}
 		}
+
 	}
 }
 
