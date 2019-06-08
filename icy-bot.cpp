@@ -4,7 +4,7 @@
    3) Run in loop: while true; do ./bot.exe; sleep 1; done
 */
 
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
 
 #include <string>
 #include <iostream>
@@ -17,6 +17,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <cstring>
+#include <unordered_map>
 
 using namespace std;
 
@@ -186,6 +187,7 @@ int main(int argc, char *argv[])
     vector<string> data;
     data.push_back(string("HELLO"));
     data.push_back(config.team_name);
+    data.push_back(string("\n"));
     data.push_back(string("add"));
     data.push_back(string("1"));
     data.push_back(string("BOND"));
