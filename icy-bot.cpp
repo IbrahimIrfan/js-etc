@@ -84,8 +84,10 @@ int main(int argc, char *argv[])
 
     Utils* util = new Utils(conn);
     util->buy("BOND",999,1);
-    string resp_add = conn.read_from_exchange();
-    cout << resp_add << endl;
+	while (true) {
+    	string resp_add = conn.read_from_exchange();
+    	cout << resp_add << endl;
+	}
 
     return 0;
 }
