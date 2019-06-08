@@ -187,13 +187,13 @@ int main(int argc, char *argv[])
     vector<string> data;
     data.push_back(string("HELLO"));
     data.push_back(config.team_name);
-    // data.push_back(string("\n"));
-    // data.push_back(string("ADD"));
-    // data.push_back(string("1"));
-    // data.push_back(string("BOND"));
-    // data.push_back(string("BUY"));
-    // data.push_back(string("999"));
-    // data.push_back(string("5"));
+    data.push_back(string("\n"));
+    data.push_back(string("ADD"));
+    data.push_back(string("5"));
+    data.push_back(string("BOND"));
+    data.push_back(string("BUY"));
+    data.push_back(string("999"));
+    data.push_back(string("5"));
     /*
       A common mistake people make is to conn.send_to_exchange() > 1
       time for every conn.read_from_exchange() response.
