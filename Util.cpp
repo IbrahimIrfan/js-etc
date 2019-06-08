@@ -128,6 +128,7 @@ void Utils::parse_message(string resp) {
     }
     else if (type == "BOOK") {
 		// Parse the line
+		/*
     	vector<string> words;
 		string tmp;
     	while (ss >> tmp) {
@@ -146,6 +147,7 @@ void Utils::parse_message(string resp) {
 		minSellVal = minSellVal.substr(0, minSellVal.find(":"));
 
 		state.book_vals[sym] = make_pair(atoi(maxBuyVal.c_str()), atoi(minSellVal.c_str()));
+		*/
     }
     else if (type == "TRADE") {
         // cout << "Server: " << resp << endl;
