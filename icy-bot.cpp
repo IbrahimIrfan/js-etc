@@ -127,16 +127,16 @@ int main(int argc, char *argv[])
             util.buy("BOND", 996, 1);
         }
 
-        if (state.our_book["BOND"].buys[1001] < 50) {
+        if (state.our_book["BOND"].sells[1001] < 50) {
             util.sell("BOND", 1001, 1);
         }
-        if (state.our_book["BOND"].buys[1002] < 25) {
+        if (state.our_book["BOND"].sells[1002] < 25) {
             util.sell("BOND", 1002, 1);
         }
-        if (state.our_book["BOND"].buys[1003] < 13) {
+        if (state.our_book["BOND"].sells[1003] < 13) {
             util.sell("BOND", 1003, 1);
         }
-        if (state.our_book["BOND"].buys[1004] < 12) {
+        if (state.our_book["BOND"].sells[1004] < 12) {
             util.sell("BOND", 1004, 1);
         }
 
